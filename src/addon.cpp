@@ -87,10 +87,6 @@ ADDON_STATUS ADDON_Create(void* callbacks, void* props)
   return ADDON_GetStatus();
 }
 
-void ADDON_Stop()
-{
-}
-
 void ADDON_Destroy()
 {
   CStorageManager::Get().Deinitialize();
