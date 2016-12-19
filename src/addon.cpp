@@ -146,16 +146,6 @@ void ADDON_DestroyInstance(int instanceType, const char* instanceID, void* insta
 {
 }
 
-const char* GetPeripheralAPIVersion(void)
-{
-  return PERIPHERAL_API_VERSION;
-}
-
-const char* GetMinimumPeripheralAPIVersion(void)
-{
-  return PERIPHERAL_MIN_API_VERSION;
-}
-
 PERIPHERAL_ERROR GetAddonCapabilities(PERIPHERAL_CAPABILITIES* pCapabilities)
 {
   if (!pCapabilities)
