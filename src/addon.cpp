@@ -146,15 +146,13 @@ void ADDON_DestroyInstance(int instanceType, const char* instanceID, void* insta
 {
 }
 
-PERIPHERAL_ERROR GetAddonCapabilities(PERIPHERAL_CAPABILITIES* pCapabilities)
+void GetCapabilities(PERIPHERAL_CAPABILITIES* pCapabilities)
 {
-  if (!pCapabilities)
-    return PERIPHERAL_ERROR_INVALID_PARAMETERS;
-
-  pCapabilities->provides_joysticks = true;
-  pCapabilities->provides_buttonmaps = true;
-
-  return PERIPHERAL_NO_ERROR;
+  if (pCapabilities)
+  {
+    pCapabilities->provides_joysticks = true;
+    pCapabilities->provides_buttonmaps = true;
+  }
 }
 
 PERIPHERAL_ERROR PerformDeviceScan(unsigned int* peripheral_count, PERIPHERAL_INFO** scan_results)
