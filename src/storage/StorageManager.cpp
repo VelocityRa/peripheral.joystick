@@ -29,7 +29,7 @@
 #include "utils/StringUtils.h"
 
 #include <kodi/peripheral/libKODI_peripheral.h>
-#include <kodi/peripheral/kodi_peripheral_types.h>
+#include <kodi/peripheral/Peripheral.h>
 #include <kodi/peripheral/kodi_peripheral_utils.hpp>
 
 using namespace JOYSTICK;
