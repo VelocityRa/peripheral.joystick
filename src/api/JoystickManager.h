@@ -22,7 +22,7 @@
 #include "JoystickTypes.h"
 #include "buttonmapper/ButtonMapTypes.h"
 
-#include "kodi_peripheral_utils.hpp"
+#include <kodi/peripheral/kodi_peripheral_utils.hpp>
 #include "p8-platform/threads/mutex.h"
 
 #include <vector>

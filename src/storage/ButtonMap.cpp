@@ -26,7 +26,7 @@
 #include "buttonmapper/ButtonMapUtils.h"
 #include "log/Log.h"
 
-#include "kodi_peripheral_utils.hpp"
+#include <kodi/peripheral/kodi_peripheral_utils.hpp>
 #include "p8-platform/util/timeutils.h"
 
 #include <algorithm>

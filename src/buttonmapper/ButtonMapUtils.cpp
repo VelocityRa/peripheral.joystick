@@ -20,7 +20,7 @@
 
 #include "ButtonMapUtils.h"
 
-#include "kodi_peripheral_utils.hpp"
+#include <kodi/peripheral/kodi_peripheral_utils.hpp>
 
 using namespace JOYSTICK;
 

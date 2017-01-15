@@ -31,10 +31,10 @@
 #include "utils/CommonIncludes.h" // for libXBMC_addon.h
 #include "utils/CommonMacros.h"
 
-#include "libKODI_peripheral.h"
-#include "xbmc_addon_dll.h"
-#include "kodi_peripheral_dll.h"
-#include "kodi_peripheral_utils.hpp"
+#include <kodi/peripheral/libKODI_peripheral.h>
+#include <kodi/xbmc_addon_dll.h>
+#include <kodi/peripheral/kodi_peripheral_dll.h>
+#include <kodi/peripheral/kodi_peripheral_utils.hpp>
 
 #include <algorithm>
 #include <vector>

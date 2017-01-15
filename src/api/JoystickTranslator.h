@@ -19,7 +19,7 @@
  */
 #pragma once
 
-#include "kodi_peripheral_types.h"
+#include <kodi/peripheral/kodi_peripheral_types.h>
 
 #include <string>
 

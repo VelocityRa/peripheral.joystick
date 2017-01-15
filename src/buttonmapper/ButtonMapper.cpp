@@ -22,8 +22,8 @@
 #include "ControllerTransformer.h"
 #include "storage/IDatabase.h"
 
-#include "kodi_peripheral_utils.hpp"
-#include "libKODI_peripheral.h"
+#include <kodi/peripheral/kodi_peripheral_utils.hpp>
+#include <kodi/peripheral/libKODI_peripheral.h>
 
 #include <algorithm>
 #include <iterator>

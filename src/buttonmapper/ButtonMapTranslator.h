@@ -19,7 +19,7 @@
  */
 #pragma once
 
-#include "kodi_peripheral_utils.hpp"
+#include <kodi/peripheral/kodi_peripheral_utils.hpp>
 
 #include <string>
 

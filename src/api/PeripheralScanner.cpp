@@ -19,7 +19,7 @@
 
 #include "PeripheralScanner.h"
 
-#include "libKODI_peripheral.h"
+#include <kodi/peripheral/libKODI_peripheral.h>
 
 using namespace ADDON;
 using namespace JOYSTICK;

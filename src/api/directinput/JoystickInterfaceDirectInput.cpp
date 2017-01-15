@@ -24,7 +24,7 @@
 #include "log/Log.h"
 #include "utils/CommonMacros.h"
 
-#include "libKODI_peripheral.h"
+#include <kodi/peripheral/libKODI_peripheral.h>
 
 #pragma comment(lib, "Dinput8.lib")
 #pragma comment(lib, "dxguid.lib")

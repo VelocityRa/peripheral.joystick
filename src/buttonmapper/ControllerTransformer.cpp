@@ -22,7 +22,7 @@
 #include "storage/Device.h"
 #include "utils/CommonMacros.h"
 
-#include "kodi_peripheral_utils.hpp"
+#include <kodi/peripheral/kodi_peripheral_utils.hpp>
 
 #include <algorithm>
 

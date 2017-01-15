@@ -28,9 +28,9 @@
 #include "storage/xml/DatabaseXml.h"
 #include "utils/StringUtils.h"
 
-#include "libKODI_peripheral.h"
-#include "kodi_peripheral_types.h"
-#include "kodi_peripheral_utils.hpp"
+#include <kodi/peripheral/libKODI_peripheral.h>
+#include <kodi/peripheral/kodi_peripheral_types.h>
+#include <kodi/peripheral/kodi_peripheral_utils.hpp>
 
 using namespace JOYSTICK;
 

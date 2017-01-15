@@ -21,7 +21,7 @@
 
 #include "DeviceConfiguration.h"
 
-#include "kodi_peripheral_utils.hpp"
+#include <kodi/peripheral/kodi_peripheral_utils.hpp>
 
 namespace JOYSTICK
 {
