@@ -22,10 +22,13 @@
 #include <set>
 #include <string>
 
-namespace ADDON
+namespace kodi
+{
+namespace addon
 {
   struct DriverPrimitive;
   class Joystick;
+}
 }
 
 namespace JOYSTICK
@@ -61,7 +64,7 @@ namespace JOYSTICK
      *   -  "Keyboard" is the name given to the keyboard by Kodi's peripheral subsystem
      *   - `"1" is the player number (for arcade cabinets that use keyboard drivers)
      */
-    static std::string RootFileName(const ADDON::Joystick& device);
+    static std::string RootFileName(const kodi::addon::Joystick& device);
 
     /*!
      * From PeripheralTypes.h of Kodi
@@ -73,7 +76,7 @@ namespace JOYSTICK
      */
     static std::string FormatHexString(int iVal);
 
-    static std::string PrimitiveToString(const ADDON::DriverPrimitive& primitive);
+    static std::string PrimitiveToString(const kodi::addon::DriverPrimitive& primitive);
 
   private:
     static std::set<std::string> m_existingDirs; // Cache list of existing dirs

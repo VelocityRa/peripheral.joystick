@@ -22,7 +22,7 @@
 #include "JoystickTypes.h"
 #include "buttonmapper/ButtonMapTypes.h"
 
-#include <kodi/peripheral/kodi_peripheral_utils.hpp>
+#include <kodi/peripheral/PeripheralUtils.h>
 #include "p8-platform/threads/mutex.h"
 
 #include <vector>
@@ -74,12 +74,12 @@ namespace JOYSTICK
 
     JoystickPtr GetJoystick(unsigned int index) const;
 
-    JoystickVector GetJoysticks(const ADDON::Joystick& joystickInfo) const;
+    JoystickVector GetJoysticks(const kodi::addon::Joystick& joystickInfo) const;
 
     /*!
     * \brief Get all events that have occurred since the last call to GetEvents()
     */
-    bool GetEvents(std::vector<ADDON::PeripheralEvent>& events);
+    bool GetEvents(std::vector<kodi::addon::PeripheralEvent>& events);
 
     /*!
      * \brief Send an event to a joystick
@@ -88,7 +88,7 @@ namespace JOYSTICK
      *
      * \return True if the event was handled
      */
-    bool SendEvent(const ADDON::PeripheralEvent& event);
+    bool SendEvent(const kodi::addon::PeripheralEvent& event);
 
     /*!
      * \brief Process events that have arrived since the last call to ProcessEvents()

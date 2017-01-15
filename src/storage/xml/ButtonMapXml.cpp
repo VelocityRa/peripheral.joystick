@@ -185,7 +185,7 @@ bool CButtonMapXml::Serialize(const FeatureVector& features, TiXmlElement* pElem
 
   for (FeatureVector::const_iterator it = features.begin(); it != features.end(); ++it)
   {
-    const ADDON::JoystickFeature& feature = *it;
+    const kodi::addon::JoystickFeature& feature = *it;
 
     if (!IsValid(feature))
       continue;
@@ -252,7 +252,7 @@ bool CButtonMapXml::Serialize(const FeatureVector& features, TiXmlElement* pElem
   return true;
 }
 
-bool CButtonMapXml::IsValid(const ADDON::JoystickFeature& feature)
+bool CButtonMapXml::IsValid(const kodi::addon::JoystickFeature& feature)
 {
   for (auto primitive : feature.Primitives())
   {
@@ -262,7 +262,7 @@ bool CButtonMapXml::IsValid(const ADDON::JoystickFeature& feature)
   return false;
 }
 
-bool CButtonMapXml::SerializePrimitiveTag(TiXmlElement* pElement, const ADDON::DriverPrimitive& primitive, const char* tagName)
+bool CButtonMapXml::SerializePrimitiveTag(TiXmlElement* pElement, const kodi::addon::DriverPrimitive& primitive, const char* tagName)
 {
   if (primitive.Type() != JOYSTICK_DRIVER_PRIMITIVE_TYPE_UNKNOWN)
   {
@@ -284,7 +284,7 @@ bool CButtonMapXml::SerializePrimitiveTag(TiXmlElement* pElement, const ADDON::D
   return true;
 }
 
-void CButtonMapXml::SerializePrimitive(TiXmlElement* pElement, const ADDON::DriverPrimitive& primitive)
+void CButtonMapXml::SerializePrimitive(TiXmlElement* pElement, const kodi::addon::DriverPrimitive& primitive)
 {
   std::string strPrimitive = ButtonMapTranslator::ToString(primitive);
   if (!strPrimitive.empty())
@@ -339,7 +339,7 @@ bool CButtonMapXml::Deserialize(const TiXmlElement* pElement, FeatureVector& fea
 
     // Check if the feature was already deserialized
     auto it = std::find_if(features.begin(), features.end(),
-      [strName](const ADDON::JoystickFeature& feature)
+      [strName](const kodi::addon::JoystickFeature& feature)
       {
         return feature.Name() == strName;
       });
@@ -362,7 +362,7 @@ bool CButtonMapXml::Deserialize(const TiXmlElement* pElement, FeatureVector& fea
     // Determine the feature type
     JOYSTICK_FEATURE_TYPE type;
 
-    ADDON::DriverPrimitive primitive;
+    kodi::addon::DriverPrimitive primitive;
     if (DeserializePrimitive(pFeature, primitive, strName))
     {
       type = JOYSTICK_FEATURE_TYPE_SCALAR;
@@ -396,7 +396,7 @@ bool CButtonMapXml::Deserialize(const TiXmlElement* pElement, FeatureVector& fea
       }
     }
 
-    ADDON::JoystickFeature feature(strName, type);
+    kodi::addon::JoystickFeature feature(strName, type);
 
     // Deserialize according to type
     switch (type)
@@ -408,10 +408,10 @@ bool CButtonMapXml::Deserialize(const TiXmlElement* pElement, FeatureVector& fea
       }
       case JOYSTICK_FEATURE_TYPE_ANALOG_STICK:
       {
-        ADDON::DriverPrimitive up;
-        ADDON::DriverPrimitive down;
-        ADDON::DriverPrimitive right;
-        ADDON::DriverPrimitive left;
+        kodi::addon::DriverPrimitive up;
+        kodi::addon::DriverPrimitive down;
+        kodi::addon::DriverPrimitive right;
+        kodi::addon::DriverPrimitive left;
 
         bool bSuccess = true;
 
@@ -451,9 +451,9 @@ bool CButtonMapXml::Deserialize(const TiXmlElement* pElement, FeatureVector& fea
       }
       case JOYSTICK_FEATURE_TYPE_ACCELEROMETER:
       {
-        ADDON::DriverPrimitive positiveX;
-        ADDON::DriverPrimitive positiveY;
-        ADDON::DriverPrimitive positiveZ;
+        kodi::addon::DriverPrimitive positiveX;
+        kodi::addon::DriverPrimitive positiveY;
+        kodi::addon::DriverPrimitive positiveZ;
 
         bool bSuccess = true;
 
@@ -494,7 +494,7 @@ bool CButtonMapXml::Deserialize(const TiXmlElement* pElement, FeatureVector& fea
   return true;
 }
 
-bool CButtonMapXml::DeserializePrimitive(const TiXmlElement* pElement, ADDON::DriverPrimitive& primitive, const std::string& featureName)
+bool CButtonMapXml::DeserializePrimitive(const TiXmlElement* pElement, kodi::addon::DriverPrimitive& primitive, const std::string& featureName)
 {
   const char* button = pElement->Attribute(BUTTONMAP_XML_ATTR_FEATURE_BUTTON);
   if (button)

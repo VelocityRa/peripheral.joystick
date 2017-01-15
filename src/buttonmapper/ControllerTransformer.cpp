@@ -22,7 +22,7 @@
 #include "storage/Device.h"
 #include "utils/CommonMacros.h"
 
-#include <kodi/peripheral/kodi_peripheral_utils.hpp>
+#include <kodi/peripheral/PeripheralUtils.h>
 
 #include <algorithm>
 
@@ -81,10 +81,10 @@ bool CControllerTransformer::AddControllerMap(const std::string& controllerFrom,
 
   for (auto itFromFeature = featuresFrom.begin(); itFromFeature != featuresFrom.end(); ++itFromFeature)
   {
-    const ADDON::JoystickFeature& fromFeature = *itFromFeature;
+    const kodi::addon::JoystickFeature& fromFeature = *itFromFeature;
 
     auto itToFeature = std::find_if(featuresTo.begin(), featuresTo.end(),
-      [&fromFeature](const ADDON::JoystickFeature& feature)
+      [&fromFeature](const kodi::addon::JoystickFeature& feature)
       {
         if (fromFeature.Type() == feature.Type())
         {
@@ -138,7 +138,7 @@ bool CControllerTransformer::AddControllerMap(const std::string& controllerFrom,
   return false;
 }
 
-void CControllerTransformer::TransformFeatures(const ADDON::Joystick& driverInfo,
+void CControllerTransformer::TransformFeatures(const kodi::addon::Joystick& driverInfo,
                                                const std::string& fromController,
                                                const std::string& toController,
                                                const FeatureVector& features,
@@ -174,14 +174,14 @@ void CControllerTransformer::TransformFeatures(const ADDON::Joystick& driverInfo
       const std::string& toFeature = bSwap ? featurePair.fromFeature : featurePair.toFeature;
 
       auto itFrom = std::find_if(features.begin(), features.end(),
-        [fromFeature](const ADDON::JoystickFeature& feature)
+        [fromFeature](const kodi::addon::JoystickFeature& feature)
         {
           return feature.Name() == fromFeature;
         });
 
       if (itFrom != features.end())
       {
-        ADDON::JoystickFeature transformedFeature(*itFrom);
+        kodi::addon::JoystickFeature transformedFeature(*itFrom);
         transformedFeature.SetName(toFeature);
         transformedFeatures.emplace_back(std::move(transformedFeature));
       }

@@ -31,12 +31,12 @@ namespace JOYSTICK
     virtual ~CDatabaseJoystickAPI(void) { }
 
     // implementation of IDatabase
-    virtual const ButtonMap& GetButtonMap(const ADDON::Joystick& driverInfo) override;
-    virtual bool MapFeatures(const ADDON::Joystick& driverInfo, const std::string& controllerId, const FeatureVector& features) override;
-    virtual bool GetIgnoredPrimitives(const ADDON::Joystick& driverInfo, PrimitiveVector& primitives) override;
-    virtual bool SetIgnoredPrimitives(const ADDON::Joystick& driverInfo, const PrimitiveVector& primitives) override;
-    virtual bool SaveButtonMap(const ADDON::Joystick& driverInfo) override;
-    virtual bool RevertButtonMap(const ADDON::Joystick& driverInfo) override;
-    virtual bool ResetButtonMap(const ADDON::Joystick& driverInfo, const std::string& controllerId) override;
+    virtual const ButtonMap& GetButtonMap(const kodi::addon::Joystick& driverInfo) override;
+    virtual bool MapFeatures(const kodi::addon::Joystick& driverInfo, const std::string& controllerId, const FeatureVector& features) override;
+    virtual bool GetIgnoredPrimitives(const kodi::addon::Joystick& driverInfo, PrimitiveVector& primitives) override;
+    virtual bool SetIgnoredPrimitives(const kodi::addon::Joystick& driverInfo, const PrimitiveVector& primitives) override;
+    virtual bool SaveButtonMap(const kodi::addon::Joystick& driverInfo) override;
+    virtual bool RevertButtonMap(const kodi::addon::Joystick& driverInfo) override;
+    virtual bool ResetButtonMap(const kodi::addon::Joystick& driverInfo, const std::string& controllerId) override;
   };
 }

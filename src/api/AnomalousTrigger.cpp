@@ -26,7 +26,7 @@ using namespace JOYSTICK;
 
 #define ANOMOLOUS_MAGNITUDE  0.5f
 
-CAnomalousTrigger::CAnomalousTrigger(unsigned int axisIndex, const ADDON::Joystick* joystickInfo)
+CAnomalousTrigger::CAnomalousTrigger(unsigned int axisIndex, const kodi::addon::Joystick* joystickInfo)
   : m_axisIndex(axisIndex),
     m_joystickInfo(joystickInfo),
     m_state(STATE_UNKNOWN),

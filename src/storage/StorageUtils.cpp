@@ -53,7 +53,7 @@ bool CStorageUtils::EnsureDirectoryExists(const std::string& path)
   return true;
 }
 
-std::string CStorageUtils::RootFileName(const ADDON::Joystick& device)
+std::string CStorageUtils::RootFileName(const kodi::addon::Joystick& device)
 {
   std::string baseFilename = StringUtils::MakeSafeUrl(device.Name());
 
@@ -110,7 +110,7 @@ std::string CStorageUtils::FormatHexString(int iVal)
   return StringUtils::Format("%04X", iVal);
 };
 
-std::string CStorageUtils::PrimitiveToString(const ADDON::DriverPrimitive& primitive)
+std::string CStorageUtils::PrimitiveToString(const kodi::addon::DriverPrimitive& primitive)
 {
   switch (primitive.Type())
   {

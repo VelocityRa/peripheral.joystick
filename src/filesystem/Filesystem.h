@@ -19,14 +19,12 @@
  */
 #pragma once
 
-namespace ADDON { class CHelper_libXBMC_addon; }
-
 namespace JOYSTICK
 {
   class CFilesystem
   {
   public:
-    static bool Initialize(ADDON::CHelper_libXBMC_addon* frontend);
+    static bool Initialize(void);
     static void Deinitialize(void);
   };
 }

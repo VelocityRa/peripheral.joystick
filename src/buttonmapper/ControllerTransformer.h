@@ -25,9 +25,12 @@
 
 #include <string>
 
-namespace ADDON
+namespace kodi
+{
+namespace addon
 {
   class Joystick;
+}
 }
 
 namespace JOYSTICK
@@ -45,7 +48,7 @@ namespace JOYSTICK
     virtual void OnAdd(const DevicePtr& driverInfo, const ButtonMap& buttonMap) override;
     virtual DevicePtr CreateDevice(const CDevice& deviceInfo) override;
 
-    void TransformFeatures(const ADDON::Joystick& driverInfo,
+    void TransformFeatures(const kodi::addon::Joystick& driverInfo,
                            const std::string& fromController,
                            const std::string& toController,
                            const FeatureVector& features,

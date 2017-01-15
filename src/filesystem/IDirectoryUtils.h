@@ -19,7 +19,7 @@
  */
 #pragma once
 
-#include "kodi_vfs_utils.hpp"
+#include <kodi/Filesystem.h>
 
 #include <string>
 
@@ -67,6 +67,6 @@ namespace JOYSTICK
      *
      * The trailing slash after .aac ensures a match at the end of the filename.
      */
-    virtual bool GetDirectory(const std::string& path, const std::string& mask, std::vector<ADDON::CVFSDirEntry>& items) = 0;
+    virtual bool GetDirectory(const std::string& path, const std::string& mask, std::vector<kodi::vfs::CDirEntry>& items) = 0;
   };
 }

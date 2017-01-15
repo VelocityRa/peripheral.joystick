@@ -32,10 +32,10 @@ using namespace JOYSTICK;
 
 namespace JOYSTICK
 {
-  bool HasPath(const std::vector<ADDON::CVFSDirEntry>& items, const std::string& path)
+  bool HasPath(const std::vector<kodi::vfs::CDirEntry>& items, const std::string& path)
   {
     return std::find_if(items.begin(), items.end(),
-      [&path](const ADDON::CVFSDirEntry& item)
+      [&path](const kodi::vfs::CDirEntry& item)
       {
         return item.Path() == path;
       }) != items.end();
@@ -54,7 +54,7 @@ void CDirectoryCache::Deinitialize(void)
   m_callbacks = nullptr;
 }
 
-bool CDirectoryCache::GetDirectory(const std::string& path, std::vector<ADDON::CVFSDirEntry>& items)
+bool CDirectoryCache::GetDirectory(const std::string& path, std::vector<kodi::vfs::CDirEntry>& items)
 {
   ItemMap::const_iterator itItemList = m_cache.find(path);
 
@@ -76,7 +76,7 @@ bool CDirectoryCache::GetDirectory(const std::string& path, std::vector<ADDON::C
   return false;
 }
 
-void CDirectoryCache::UpdateDirectory(const std::string& path, const std::vector<ADDON::CVFSDirEntry>& items)
+void CDirectoryCache::UpdateDirectory(const std::string& path, const std::vector<kodi::vfs::CDirEntry>& items)
 {
   if (!m_callbacks)
     return;

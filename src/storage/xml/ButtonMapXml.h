@@ -25,10 +25,13 @@
 
 class TiXmlElement;
 
-namespace ADDON
+namespace kodi
+{
+namespace addon
 {
   struct DriverPrimitive;
   class JoystickFeature;
+}
 }
 
 namespace JOYSTICK
@@ -55,10 +58,10 @@ namespace JOYSTICK
     static bool Serialize(const FeatureVector& features, TiXmlElement* pElement);
     static bool Deserialize(const TiXmlElement* pElement, FeatureVector& features);
 
-    static bool IsValid(const ADDON::JoystickFeature& feature);
-    static bool SerializeFeature(TiXmlElement* pElement, const ADDON::DriverPrimitive& primitive, const char* tagName);
-    static bool SerializePrimitiveTag(TiXmlElement* pElement, const ADDON::DriverPrimitive& primitive, const char* tagName);
-    static void SerializePrimitive(TiXmlElement* pElement, const ADDON::DriverPrimitive& primitive);
-    static bool DeserializePrimitive(const TiXmlElement* pElement, ADDON::DriverPrimitive& primitive, const std::string& featureName);
+    static bool IsValid(const kodi::addon::JoystickFeature& feature);
+    static bool SerializeFeature(TiXmlElement* pElement, const kodi::addon::DriverPrimitive& primitive, const char* tagName);
+    static bool SerializePrimitiveTag(TiXmlElement* pElement, const kodi::addon::DriverPrimitive& primitive, const char* tagName);
+    static void SerializePrimitive(TiXmlElement* pElement, const kodi::addon::DriverPrimitive& primitive);
+    static bool DeserializePrimitive(const TiXmlElement* pElement, kodi::addon::DriverPrimitive& primitive, const std::string& featureName);
   };
 }

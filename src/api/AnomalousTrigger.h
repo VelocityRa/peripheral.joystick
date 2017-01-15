@@ -20,9 +20,12 @@
 
 #include "IJoystickAxisFilter.h"
 
-namespace ADDON
+namespace kodi
+{
+namespace addon
 {
   class Joystick;
+}
 }
 
 namespace JOYSTICK
@@ -53,7 +56,7 @@ namespace JOYSTICK
   class CAnomalousTrigger : public IJoystickAxisFilter
   {
   public:
-    CAnomalousTrigger(unsigned int axisIndex, const ADDON::Joystick* joystickInfo);
+    CAnomalousTrigger(unsigned int axisIndex, const kodi::addon::Joystick* joystickInfo);
 
     // implementation of IJoystickAxisFilter
     virtual float Filter(float value) override;
@@ -119,7 +122,7 @@ namespace JOYSTICK
 
     // Construction parameters
     const unsigned int           m_axisIndex;
-    const ADDON::Joystick* const m_joystickInfo;
+    const kodi::addon::Joystick* const m_joystickInfo;
 
     // Detected trigger parameters
     AXIS_STATE         m_state;

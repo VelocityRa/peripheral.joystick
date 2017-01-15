@@ -220,7 +220,7 @@ JoystickPtr CJoystickManager::GetJoystick(unsigned int index) const
   return JoystickPtr();
 }
 
-JoystickVector CJoystickManager::GetJoysticks(const ADDON::Joystick& joystickInfo) const
+JoystickVector CJoystickManager::GetJoysticks(const kodi::addon::Joystick& joystickInfo) const
 {
   JoystickVector result;
 
@@ -238,7 +238,7 @@ JoystickVector CJoystickManager::GetJoysticks(const ADDON::Joystick& joystickInf
   return result;
 }
 
-bool CJoystickManager::GetEvents(std::vector<ADDON::PeripheralEvent>& events)
+bool CJoystickManager::GetEvents(std::vector<kodi::addon::PeripheralEvent>& events)
 {
   CLockObject lock(m_joystickMutex);
 
@@ -248,7 +248,7 @@ bool CJoystickManager::GetEvents(std::vector<ADDON::PeripheralEvent>& events)
   return true;
 }
 
-bool CJoystickManager::SendEvent(const ADDON::PeripheralEvent& event)
+bool CJoystickManager::SendEvent(const kodi::addon::PeripheralEvent& event)
 {
   bool bHandled = false;
 

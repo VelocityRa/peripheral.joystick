@@ -24,25 +24,28 @@
 #include <string>
 #include <vector>
 
-namespace ADDON
+namespace kodi
+{
+namespace addon
 {
   struct DriverPrimitive;
   class JoystickFeature;
-};
+}
+}
 
 namespace JOYSTICK
 {
   /*!
    * \brief A list of driver primitives
    */
-  typedef std::vector<ADDON::DriverPrimitive> PrimitiveVector;
+  typedef std::vector<kodi::addon::DriverPrimitive> PrimitiveVector;
 
   /*!
    * \brief A list of joystick features
    *
    * Each feature is connected to one or more driver primitives.
    */
-  typedef std::vector<ADDON::JoystickFeature> FeatureVector;
+  typedef std::vector<kodi::addon::JoystickFeature> FeatureVector;
 
   /*!
    * \brief Controller ID type

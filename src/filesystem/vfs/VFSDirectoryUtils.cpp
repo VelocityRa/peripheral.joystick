@@ -19,34 +19,28 @@
  */
 
 #include "VFSDirectoryUtils.h"
-#include "utils/CommonIncludes.h" // for libXBMC_addon.h
+#include <kodi/Filesystem.h>
 
 #include <assert.h>
 
 using namespace JOYSTICK;
 
-CVFSDirectoryUtils::CVFSDirectoryUtils(ADDON::CHelper_libXBMC_addon* frontend)
-  : m_frontend(frontend)
-{
-  assert(m_frontend);
-}
-
 bool CVFSDirectoryUtils::Create(const std::string& path)
 {
-  return m_frontend->CreateDirectory(path.c_str());
+  return kodi::vfs::CreateDirectory(path.c_str());
 }
 
 bool CVFSDirectoryUtils::Exists(const std::string& path)
 {
-  return m_frontend->DirectoryExists(path.c_str());
+  return kodi::vfs::DirectoryExists(path.c_str());
 }
 
 bool CVFSDirectoryUtils::Remove(const std::string& path)
 {
-  return m_frontend->RemoveDirectory(path.c_str());
+  return kodi::vfs::RemoveDirectory(path.c_str());
 }
 
-bool CVFSDirectoryUtils::GetDirectory(const std::string& path, const std::string& mask, std::vector<ADDON::CVFSDirEntry>& items)
+bool CVFSDirectoryUtils::GetDirectory(const std::string& path, const std::string& mask, std::vector<kodi::vfs::CDirEntry>& items)
 {
-  return ADDON::VFSUtils::GetDirectory(m_frontend, path, mask, items);
+  return kodi::vfs::GetDirectory(path, mask, items);
 }

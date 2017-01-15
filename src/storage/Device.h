@@ -21,14 +21,15 @@
 
 #include "DeviceConfiguration.h"
 
-#include <kodi/peripheral/kodi_peripheral_utils.hpp>
+#include <kodi/peripheral/Peripheral.h>
+#include <kodi/peripheral/PeripheralUtils.h>
 
 namespace JOYSTICK
 {
   /*!
    * \brief Record for devices in the button map database
    *
-   * Device properties are inherited from ADDON::Joystick. These are:
+   * Device properties are inherited from kodi::addon::Joystick. These are:
    *
    *   - Device type
    *   - Name                     [ or "" if unknown ]
@@ -47,11 +48,11 @@ namespace JOYSTICK
    * The number of motors is hard-coded in the api section of the code and is
    * not used in the handling logic.
    */
-  class CDevice : public ADDON::Joystick
+  class CDevice : public kodi::addon::Joystick
   {
   public:
     CDevice(void) = default;
-    CDevice(const ADDON::Joystick& joystick);
+    CDevice(const kodi::addon::Joystick& joystick);
     virtual ~CDevice(void) = default;
 
     void Reset(void);

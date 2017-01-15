@@ -30,7 +30,7 @@ using namespace JOYSTICK;
 #define HAT_CHAR  'h'
 #define MOTOR_CHAR  'm'
 
-std::string ButtonMapTranslator::ToString(const ADDON::DriverPrimitive& primitive)
+std::string ButtonMapTranslator::ToString(const kodi::addon::DriverPrimitive& primitive)
 {
   std::stringstream strPrimitive;
   switch (primitive.Type())
@@ -64,9 +64,9 @@ std::string ButtonMapTranslator::ToString(const ADDON::DriverPrimitive& primitiv
   return strPrimitive.str();
 }
 
-ADDON::DriverPrimitive ButtonMapTranslator::ToDriverPrimitive(const std::string& strPrimitive, JOYSTICK_DRIVER_PRIMITIVE_TYPE type)
+kodi::addon::DriverPrimitive ButtonMapTranslator::ToDriverPrimitive(const std::string& strPrimitive, JOYSTICK_DRIVER_PRIMITIVE_TYPE type)
 {
-  ADDON::DriverPrimitive primitive;
+  kodi::addon::DriverPrimitive primitive;
 
   if (!strPrimitive.empty())
   {
@@ -75,7 +75,7 @@ ADDON::DriverPrimitive ButtonMapTranslator::ToDriverPrimitive(const std::string&
     case JOYSTICK_DRIVER_PRIMITIVE_TYPE_BUTTON:
     {
       if (std::isdigit(strPrimitive[0]))
-        primitive = ADDON::DriverPrimitive::CreateButton(std::atoi(strPrimitive.c_str()));
+        primitive = kodi::addon::DriverPrimitive::CreateButton(std::atoi(strPrimitive.c_str()));
       break;
     }
     case JOYSTICK_DRIVER_PRIMITIVE_TYPE_HAT_DIRECTION:
@@ -88,7 +88,7 @@ ADDON::DriverPrimitive ButtonMapTranslator::ToDriverPrimitive(const std::string&
         {
           JOYSTICK_DRIVER_HAT_DIRECTION hatDir = JoystickTranslator::TranslateHatDir(strPrimitive.substr(dirPos));
           if (hatDir != JOYSTICK_DRIVER_HAT_UNKNOWN)
-            primitive = ADDON::DriverPrimitive(hatIndex, hatDir);
+            primitive = kodi::addon::DriverPrimitive(hatIndex, hatDir);
         }
       }
       break;
@@ -97,13 +97,13 @@ ADDON::DriverPrimitive ButtonMapTranslator::ToDriverPrimitive(const std::string&
     {
       JOYSTICK_DRIVER_SEMIAXIS_DIRECTION dir = JoystickTranslator::TranslateSemiAxisDir(strPrimitive[0]);
       if (dir != JOYSTICK_DRIVER_SEMIAXIS_UNKNOWN)
-        primitive = ADDON::DriverPrimitive(std::atoi(strPrimitive.substr(1).c_str()), dir);
+        primitive = kodi::addon::DriverPrimitive(std::atoi(strPrimitive.substr(1).c_str()), dir);
       break;
     }
     case JOYSTICK_DRIVER_PRIMITIVE_TYPE_MOTOR:
     {
       if (std::isdigit(strPrimitive[0]))
-        primitive = ADDON::DriverPrimitive::CreateMotor(std::atoi(strPrimitive.c_str()));
+        primitive = kodi::addon::DriverPrimitive::CreateMotor(std::atoi(strPrimitive.c_str()));
       break;
     }
     default:

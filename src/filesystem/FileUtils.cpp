@@ -24,18 +24,13 @@
 
 using namespace JOYSTICK;
 
-ADDON::CHelper_libXBMC_addon* CFileUtils::m_frontend = NULL;
-
-bool CFileUtils::Initialize(ADDON::CHelper_libXBMC_addon* frontend)
+bool CFileUtils::Initialize(void)
 {
-  m_frontend = frontend;
-
   return true;
 }
 
 void CFileUtils::Deinitialize(void)
 {
-  m_frontend = NULL;
 }
 
 bool CFileUtils::Exists(const std::string& url)
@@ -90,10 +85,5 @@ bool CFileUtils::SetHidden(const std::string& url, bool bHidden)
 
 FileUtilsPtr CFileUtils::CreateFileUtils(const std::string& url)
 {
-  FileUtilsPtr fileUtils;
-
-  if (m_frontend)
-    fileUtils = FileUtilsPtr(new CVFSFileUtils(m_frontend));
-
-  return fileUtils;
+  return FileUtilsPtr(new CVFSFileUtils());
 }

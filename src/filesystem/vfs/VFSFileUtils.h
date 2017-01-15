@@ -21,14 +21,12 @@
 
 #include "filesystem/IFileUtils.h"
 
-namespace ADDON { class CHelper_libXBMC_addon; }
-
 namespace JOYSTICK
 {
   class CVFSFileUtils : public IFileUtils
   {
   public:
-    CVFSFileUtils(ADDON::CHelper_libXBMC_addon* frontend);
+    CVFSFileUtils(void) { }
 
     virtual ~CVFSFileUtils(void) { }
 
@@ -37,8 +35,5 @@ namespace JOYSTICK
     virtual bool Stat(const std::string& url, STAT_STRUCTURE& buffer) override;
     virtual bool Rename(const std::string& url, const std::string& newUrl) override;
     virtual bool Delete(const std::string& url) override;
-
-  private:
-    ADDON::CHelper_libXBMC_addon* const m_frontend;
   };
 }

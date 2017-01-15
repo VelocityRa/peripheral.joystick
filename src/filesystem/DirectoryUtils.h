@@ -22,25 +22,21 @@
 #include "FilesystemTypes.h"
 #include "IDirectoryUtils.h"
 
-#include "kodi_vfs_utils.hpp"
-
 #include <string>
-
-namespace ADDON { class CHelper_libXBMC_addon; }
 
 namespace JOYSTICK
 {
   class CDirectoryUtils
   {
   public:
-    static bool Initialize(ADDON::CHelper_libXBMC_addon* frontend);
+    static bool Initialize(void);
     static void Deinitialize(void);
 
     // Directory operations
     static bool Create(const std::string& path);
     static bool Exists(const std::string& path);
     static bool Remove(const std::string& path);
-    static bool GetDirectory(const std::string& path, const std::string& mask, std::vector<ADDON::CVFSDirEntry>& items);
+    static bool GetDirectory(const std::string& path, const std::string& mask, std::vector<kodi::vfs::CDirEntry>& items);
 
   private:
     /*!
@@ -50,7 +46,5 @@ namespace JOYSTICK
      *         implementations can handle the URL
      */
     static DirectoryUtilsPtr CreateDirectoryUtils(const std::string& url);
-
-    static ADDON::CHelper_libXBMC_addon* m_frontend;
   };
 }

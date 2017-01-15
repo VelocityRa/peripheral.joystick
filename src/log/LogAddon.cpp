@@ -25,31 +25,28 @@
 
 using namespace JOYSTICK;
 
-CLogAddon::CLogAddon(ADDON::CHelper_libXBMC_addon* frontend)
- : m_frontend(frontend)
+CLogAddon::CLogAddon()
 {
-  ASSERT(m_frontend);
 }
 
 void CLogAddon::Log(SYS_LOG_LEVEL level, const char* logline)
 {
-  ADDON::addon_log_t loglevel;
+  AddonLog loglevel;
 
   switch (level)
   {
   case SYS_LOG_ERROR:
-    loglevel = ADDON::LOG_ERROR;
+    loglevel = ADDON_LOG_ERROR;
     break;
   case SYS_LOG_INFO:
-    loglevel = ADDON::LOG_INFO;
+    loglevel = ADDON_LOG_INFO;
     break;
   case SYS_LOG_DEBUG:
-    loglevel = ADDON::LOG_DEBUG;
+    loglevel = ADDON_LOG_DEBUG;
     break;
   default:
     return;
   }
 
-  if (m_frontend)
-    m_frontend->Log(loglevel, logline);
+  kodi::Log(loglevel, logline);
 }

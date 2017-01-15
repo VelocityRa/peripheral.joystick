@@ -19,9 +19,12 @@
  */
 #pragma once
 
-namespace ADDON
+namespace kodi
+{
+namespace addon
 {
   class JoystickFeature;
+}
 }
 
 namespace JOYSTICK
@@ -32,6 +35,6 @@ namespace JOYSTICK
     /*!
      * \brief Check if two features having matching primitives
      */
-    static bool PrimitivesEqual(const ADDON::JoystickFeature& lhs, const ADDON::JoystickFeature& rhs);
+    static bool PrimitivesEqual(const kodi::addon::JoystickFeature& lhs, const kodi::addon::JoystickFeature& rhs);
   };
 }

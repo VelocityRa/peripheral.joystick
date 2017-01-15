@@ -19,18 +19,18 @@
  */
 
 #include "ButtonMapper.h"
+#include "addon.h"
 #include "ControllerTransformer.h"
 #include "storage/IDatabase.h"
 
-#include <kodi/peripheral/kodi_peripheral_utils.hpp>
-#include <kodi/peripheral/libKODI_peripheral.h>
+#include <kodi/peripheral/PeripheralUtils.h>
 
 #include <algorithm>
 #include <iterator>
 
 using namespace JOYSTICK;
 
-CButtonMapper::CButtonMapper(ADDON::CHelper_libKODI_peripheral* peripheralLib) :
+CButtonMapper::CButtonMapper(CPeripheralJoystick* peripheralLib) :
   m_peripheralLib(peripheralLib)
 {
 }
@@ -56,7 +56,7 @@ IDatabaseCallbacks* CButtonMapper::GetCallbacks()
   return m_controllerTransformer.get();
 }
 
-bool CButtonMapper::GetFeatures(const ADDON::Joystick& joystick,
+bool CButtonMapper::GetFeatures(const kodi::addon::Joystick& joystick,
                                 const std::string& strControllerId,
                                 FeatureVector& features)
 {
@@ -68,7 +68,7 @@ bool CButtonMapper::GetFeatures(const ADDON::Joystick& joystick,
   return !features.empty();
 }
 
-ButtonMap CButtonMapper::GetButtonMap(const ADDON::Joystick& joystick) const
+ButtonMap CButtonMapper::GetButtonMap(const kodi::addon::Joystick& joystick) const
 {
   ButtonMap accumulatedMap;
 
@@ -94,11 +94,11 @@ void CButtonMapper::MergeButtonMap(ButtonMap& accumulatedMap, const ButtonMap& n
 
 void CButtonMapper::MergeFeatures(FeatureVector& features, const FeatureVector& newFeatures)
 {
-  for (const ADDON::JoystickFeature& newFeature : newFeatures)
+  for (const kodi::addon::JoystickFeature& newFeature : newFeatures)
   {
     // Check for duplicate feature name
     bool bFound = std::find_if(features.begin(), features.end(),
-      [&newFeature](const ADDON::JoystickFeature& feature)
+      [&newFeature](const kodi::addon::JoystickFeature& feature)
       {
         return feature.Name() == newFeature.Name();
       }) != features.end();
@@ -109,7 +109,7 @@ void CButtonMapper::MergeFeatures(FeatureVector& features, const FeatureVector& 
       const auto& newPrimitives = newFeature.Primitives();
 
       bFound = std::find_if(features.begin(), features.end(),
-        [&newPrimitives](const ADDON::JoystickFeature& feature)
+        [&newPrimitives](const kodi::addon::JoystickFeature& feature)
         {
           for (const auto& primitive : feature.Primitives())
           {
@@ -128,7 +128,7 @@ void CButtonMapper::MergeFeatures(FeatureVector& features, const FeatureVector& 
   }
 }
 
-bool CButtonMapper::GetFeatures(const ADDON::Joystick& joystick, ButtonMap buttonMap, const std::string& controllerId, FeatureVector& features)
+bool CButtonMapper::GetFeatures(const kodi::addon::Joystick& joystick, ButtonMap buttonMap, const std::string& controllerId, FeatureVector& features)
 {
   // Try to get a button map for the specified controller profile
   auto itController = buttonMap.find(controllerId);
@@ -159,7 +159,7 @@ bool CButtonMapper::GetFeatures(const ADDON::Joystick& joystick, ButtonMap butto
   return !features.empty();
 }
 
-void CButtonMapper::DeriveFeatures(const ADDON::Joystick& joystick, const std::string& toController, const ButtonMap& buttonMap, FeatureVector& transformedFeatures)
+void CButtonMapper::DeriveFeatures(const kodi::addon::Joystick& joystick, const std::string& toController, const ButtonMap& buttonMap, FeatureVector& transformedFeatures)
 {
   if (!m_controllerTransformer)
     return;

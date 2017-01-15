@@ -22,14 +22,14 @@
 
 using namespace JOYSTICK;
 
-CDevice::CDevice(const ADDON::Joystick& joystick) :
-  ADDON::Joystick(joystick)
+CDevice::CDevice(const kodi::addon::Joystick& joystick) :
+  kodi::addon::Joystick(joystick)
 {
 }
 
 void CDevice::Reset(void)
 {
-  Joystick::operator=(ADDON::Joystick());
+  Joystick::operator=(kodi::addon::Joystick());
   m_configuration.Reset();
 }
 

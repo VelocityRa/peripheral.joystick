@@ -24,9 +24,12 @@
 
 #include <string>
 
-namespace ADDON
+namespace kodi
+{
+namespace addon
 {
   class Joystick;
+}
 }
 
 namespace JOYSTICK
@@ -53,39 +56,39 @@ namespace JOYSTICK
     /*!
      * \copydoc CStorageManager::GetFeatures()
      */
-    virtual const ButtonMap& GetButtonMap(const ADDON::Joystick& driverInfo) = 0;
+    virtual const ButtonMap& GetButtonMap(const kodi::addon::Joystick& driverInfo) = 0;
 
     /*!
      * \copydoc CStorageManager::MapFeatures()
      */
-    virtual bool MapFeatures(const ADDON::Joystick& driverInfo,
+    virtual bool MapFeatures(const kodi::addon::Joystick& driverInfo,
                              const std::string& controllerId,
                              const FeatureVector& features) = 0;
 
     /*!
      * \copydoc CStorageManager::GetIgnoredPrimitives()
      */
-    virtual bool GetIgnoredPrimitives(const ADDON::Joystick& driverInfo, PrimitiveVector& primitives) = 0;
+    virtual bool GetIgnoredPrimitives(const kodi::addon::Joystick& driverInfo, PrimitiveVector& primitives) = 0;
 
     /*!
      * \copydoc CStorageManager::SetIgnoredPrimitives()
      */
-    virtual bool SetIgnoredPrimitives(const ADDON::Joystick& driverInfo, const PrimitiveVector& primitives) = 0;
+    virtual bool SetIgnoredPrimitives(const kodi::addon::Joystick& driverInfo, const PrimitiveVector& primitives) = 0;
 
     /*!
      * \copydoc CStorageManager::SaveButtonMap()
      */
-    virtual bool SaveButtonMap(const ADDON::Joystick& driverInfo) = 0;
+    virtual bool SaveButtonMap(const kodi::addon::Joystick& driverInfo) = 0;
 
     /*!
      * \copydoc CStorageManager::RevertButtonMap()
      */
-    virtual bool RevertButtonMap(const ADDON::Joystick& driverInfo) = 0;
+    virtual bool RevertButtonMap(const kodi::addon::Joystick& driverInfo) = 0;
 
     /*!
      * \copydoc CStorageManager::ResetButtonMap()
      */
-    virtual bool ResetButtonMap(const ADDON::Joystick& driverInfo,
+    virtual bool ResetButtonMap(const kodi::addon::Joystick& driverInfo,
                                 const std::string& controllerId) = 0;
 
     IDatabaseCallbacks* Callbacks() const { return m_callbacks; }

@@ -24,10 +24,10 @@
 
 using namespace JOYSTICK;
 
-bool CFilesystem::Initialize(ADDON::CHelper_libXBMC_addon* frontend)
+bool CFilesystem::Initialize(void)
 {
-  return CFileUtils::Initialize(frontend) &&
-         CDirectoryUtils::Initialize(frontend);
+  return CFileUtils::Initialize() &&
+         CDirectoryUtils::Initialize();
 }
 
 void CFilesystem::Deinitialize(void)

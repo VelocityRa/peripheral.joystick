@@ -25,14 +25,12 @@
 
 #include <string>
 
-namespace ADDON { class CHelper_libXBMC_addon; }
-
 namespace JOYSTICK
 {
   class CFileUtils
   {
   public:
-    static bool Initialize(ADDON::CHelper_libXBMC_addon* frontend);
+    static bool Initialize(void);
     static void Deinitialize(void);
 
     static bool Exists(const std::string& url);
@@ -49,7 +47,5 @@ namespace JOYSTICK
      *         implementations can handle the URL
      */
     static FileUtilsPtr CreateFileUtils(const std::string& url);
-
-    static ADDON::CHelper_libXBMC_addon* m_frontend;
   };
 }

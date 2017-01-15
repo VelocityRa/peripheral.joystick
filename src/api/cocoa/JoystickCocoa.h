@@ -43,7 +43,7 @@ namespace JOYSTICK
     virtual bool Equals(const CJoystick* rhs) const override;
     virtual bool Initialize(void) override;
     virtual void Deinitialize(void) override;
-    virtual bool GetEvents(std::vector<ADDON::PeripheralEvent>& events) override;
+    virtual bool GetEvents(std::vector<kodi::addon::PeripheralEvent>& events) override;
 
     // implementation of ICocoaInputCallback
     virtual void InputValueChanged(IOHIDValueRef value) override;

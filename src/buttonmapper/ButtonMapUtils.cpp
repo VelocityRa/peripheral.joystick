@@ -20,11 +20,11 @@
 
 #include "ButtonMapUtils.h"
 
-#include <kodi/peripheral/kodi_peripheral_utils.hpp>
+#include <kodi/peripheral/PeripheralUtils.h>
 
 using namespace JOYSTICK;
 
-bool ButtonMapUtils::PrimitivesEqual(const ADDON::JoystickFeature& lhs, const ADDON::JoystickFeature& rhs)
+bool ButtonMapUtils::PrimitivesEqual(const kodi::addon::JoystickFeature& lhs, const kodi::addon::JoystickFeature& rhs)
 {
   if (lhs.Type() == rhs.Type())
   {

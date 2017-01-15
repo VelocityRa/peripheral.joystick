@@ -20,14 +20,14 @@
 
 #include "JoystickManager.h"
 
-namespace ADDON { class CHelper_libKODI_peripheral; }
+class CPeripheralJoystick;
 
 namespace JOYSTICK
 {
   class CPeripheralScanner : public IScannerCallback
   {
   public:
-    CPeripheralScanner(ADDON::CHelper_libKODI_peripheral* peripheralLib);
+    CPeripheralScanner(CPeripheralJoystick* peripheralLib);
 
     virtual ~CPeripheralScanner(void) { }
 
@@ -37,6 +37,6 @@ namespace JOYSTICK
     virtual void TriggerScan(void) override;
 
   private:
-    ADDON::CHelper_libKODI_peripheral* const m_peripheralLib;
+    CPeripheralJoystick* const m_peripheralLib;
   };
 }

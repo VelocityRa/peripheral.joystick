@@ -21,14 +21,12 @@
 
 #include "filesystem/IDirectoryUtils.h"
 
-namespace ADDON { class CHelper_libXBMC_addon; }
-
 namespace JOYSTICK
 {
   class CVFSDirectoryUtils : public IDirectoryUtils
   {
   public:
-    CVFSDirectoryUtils(ADDON::CHelper_libXBMC_addon* frontend);
+    CVFSDirectoryUtils(void) { }
 
     virtual ~CVFSDirectoryUtils(void) { }
 
@@ -36,9 +34,6 @@ namespace JOYSTICK
     virtual bool Create(const std::string& path) override;
     virtual bool Exists(const std::string& path) override;
     virtual bool Remove(const std::string& path) override;
-    virtual bool GetDirectory(const std::string& path, const std::string& mask, std::vector<ADDON::CVFSDirEntry>& items) override;
-
-  private:
-    ADDON::CHelper_libXBMC_addon* const m_frontend;
+    virtual bool GetDirectory(const std::string& path, const std::string& mask, std::vector<kodi::vfs::CDirEntry>& items) override;
   };
 }

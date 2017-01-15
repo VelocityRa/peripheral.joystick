@@ -62,7 +62,7 @@ void CJoystick::SetName(const std::string& strName)
 
   StringUtils::Trim(strSanitizedFilename);
 
-  ADDON::Joystick::SetName(strSanitizedFilename);
+  kodi::addon::Joystick::SetName(strSanitizedFilename);
 }
 
 bool CJoystick::Initialize(void)
@@ -104,7 +104,7 @@ void CJoystick::Deinitialize(void)
   m_axisFilters.clear();
 }
 
-bool CJoystick::GetEvents(std::vector<ADDON::PeripheralEvent>& events)
+bool CJoystick::GetEvents(std::vector<kodi::addon::PeripheralEvent>& events)
 {
   if (ScanEvents())
   {
@@ -120,7 +120,7 @@ bool CJoystick::GetEvents(std::vector<ADDON::PeripheralEvent>& events)
   return false;
 }
 
-bool CJoystick::SendEvent(const ADDON::PeripheralEvent& event)
+bool CJoystick::SendEvent(const kodi::addon::PeripheralEvent& event)
 {
   bool bHandled = false;
 
@@ -155,40 +155,40 @@ std::vector<CAnomalousTrigger*> CJoystick::GetAnomalousTriggers()
   return result;
 }
 
-void CJoystick::GetButtonEvents(std::vector<ADDON::PeripheralEvent>& events)
+void CJoystick::GetButtonEvents(std::vector<kodi::addon::PeripheralEvent>& events)
 {
   const std::vector<JOYSTICK_STATE_BUTTON>& buttons = m_stateBuffer.buttons;
 
   for (unsigned int i = 0; i < buttons.size(); i++)
   {
     if (buttons[i] != m_state.buttons[i])
-      events.push_back(ADDON::PeripheralEvent(Index(), i, buttons[i]));
+      events.push_back(kodi::addon::PeripheralEvent(Index(), i, buttons[i]));
   }
 
   m_state.buttons.assign(buttons.begin(), buttons.end());
 }
 
-void CJoystick::GetHatEvents(std::vector<ADDON::PeripheralEvent>& events)
+void CJoystick::GetHatEvents(std::vector<kodi::addon::PeripheralEvent>& events)
 {
   const std::vector<JOYSTICK_STATE_HAT>& hats = m_stateBuffer.hats;
 
   for (unsigned int i = 0; i < hats.size(); i++)
   {
     if (hats[i] != m_state.hats[i])
-      events.push_back(ADDON::PeripheralEvent(Index(), i, hats[i]));
+      events.push_back(kodi::addon::PeripheralEvent(Index(), i, hats[i]));
   }
 
   m_state.hats.assign(hats.begin(), hats.end());
 }
 
-void CJoystick::GetAxisEvents(std::vector<ADDON::PeripheralEvent>& events)
+void CJoystick::GetAxisEvents(std::vector<kodi::addon::PeripheralEvent>& events)
 {
   const std::vector<JOYSTICK_STATE_AXIS>& axes = m_stateBuffer.axes;
 
   for (unsigned int i = 0; i < axes.size(); i++)
   {
     if (axes[i] != 0.0f || m_state.axes[i] != 0.0f)
-      events.push_back(ADDON::PeripheralEvent(Index(), i, axes[i]));
+      events.push_back(kodi::addon::PeripheralEvent(Index(), i, axes[i]));
   }
 
   m_state.axes.assign(axes.begin(), axes.end());

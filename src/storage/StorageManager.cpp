@@ -28,9 +28,7 @@
 #include "storage/xml/DatabaseXml.h"
 #include "utils/StringUtils.h"
 
-#include <kodi/peripheral/libKODI_peripheral.h>
-#include <kodi/peripheral/Peripheral.h>
-#include <kodi/peripheral/kodi_peripheral_utils.hpp>
+#include "addon.h"
 
 using namespace JOYSTICK;
 
@@ -57,11 +55,10 @@ CStorageManager& CStorageManager::Get(void)
   return _instance;
 }
 
-bool CStorageManager::Initialize(ADDON::CHelper_libKODI_peripheral* peripheralLib,
-                                 const AddonProps_Peripheral& props)
+bool CStorageManager::Initialize(CPeripheralJoystick* peripheralLib)
 {
-  std::string strUserPath = props.user_path ? props.user_path : "";
-  std::string strAddonPath = props.addon_path ? props.addon_path : "";
+  std::string strUserPath = peripheralLib->UserPath();
+  std::string strAddonPath = peripheralLib->AddonPath();
 
   if (peripheralLib == NULL || strUserPath.empty() || strAddonPath.empty())
     return false;
@@ -112,7 +109,7 @@ void CStorageManager::Deinitialize(void)
   m_peripheralLib = nullptr;
 }
 
-void CStorageManager::GetFeatures(const ADDON::Joystick& joystick,
+void CStorageManager::GetFeatures(const kodi::addon::Joystick& joystick,
                                   const std::string& strControllerId,
                                   FeatureVector& features)
 {
@@ -120,7 +117,7 @@ void CStorageManager::GetFeatures(const ADDON::Joystick& joystick,
     m_buttonMapper->GetFeatures(joystick, strControllerId, features);
 }
 
-bool CStorageManager::MapFeatures(const ADDON::Joystick& joystick,
+bool CStorageManager::MapFeatures(const kodi::addon::Joystick& joystick,
                                   const std::string& strControllerId,
                                   const FeatureVector& features)
 {
@@ -132,7 +129,7 @@ bool CStorageManager::MapFeatures(const ADDON::Joystick& joystick,
   return bSuccess;
 }
 
-void CStorageManager::GetIgnoredPrimitives(const ADDON::Joystick& joystick, PrimitiveVector& primitives)
+void CStorageManager::GetIgnoredPrimitives(const kodi::addon::Joystick& joystick, PrimitiveVector& primitives)
 {
   for (DatabaseVector::const_iterator it = m_databases.begin(); it != m_databases.end(); ++it)
   {
@@ -141,7 +138,7 @@ void CStorageManager::GetIgnoredPrimitives(const ADDON::Joystick& joystick, Prim
   }
 }
 
-bool CStorageManager::SetIgnoredPrimitives(const ADDON::Joystick& joystick, const PrimitiveVector& primitives)
+bool CStorageManager::SetIgnoredPrimitives(const kodi::addon::Joystick& joystick, const PrimitiveVector& primitives)
 {
   bool bSuccess = false;
 
@@ -151,7 +148,7 @@ bool CStorageManager::SetIgnoredPrimitives(const ADDON::Joystick& joystick, cons
   return bSuccess;
 }
 
-bool CStorageManager::SaveButtonMap(const ADDON::Joystick& joystick)
+bool CStorageManager::SaveButtonMap(const kodi::addon::Joystick& joystick)
 {
   bool bModified = false;
 
@@ -161,7 +158,7 @@ bool CStorageManager::SaveButtonMap(const ADDON::Joystick& joystick)
   return bModified;
 }
 
-bool CStorageManager::RevertButtonMap(const ADDON::Joystick& joystick)
+bool CStorageManager::RevertButtonMap(const kodi::addon::Joystick& joystick)
 {
   bool bModified = false;
 
@@ -171,7 +168,7 @@ bool CStorageManager::RevertButtonMap(const ADDON::Joystick& joystick)
   return bModified;
 }
 
-bool CStorageManager::ResetButtonMap(const ADDON::Joystick& joystick, const std::string& strControllerId)
+bool CStorageManager::ResetButtonMap(const kodi::addon::Joystick& joystick, const std::string& strControllerId)
 {
   bool bModified = false;
 

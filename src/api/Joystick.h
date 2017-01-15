@@ -18,7 +18,7 @@
  */
 #pragma once
 
-#include <kodi/peripheral/kodi_peripheral_utils.hpp>
+#include <kodi/peripheral/PeripheralUtils.h>
 
 #include <string>
 #include <vector>
@@ -28,7 +28,7 @@ namespace JOYSTICK
   class CAnomalousTrigger;
   class IJoystickAxisFilter;
 
-  class CJoystick : public ADDON::Joystick
+  class CJoystick : public kodi::addon::Joystick
   {
   public:
     CJoystick(const std::string& strProvider);
@@ -79,12 +79,12 @@ namespace JOYSTICK
     /*!
      * Get events that have occurred since the last call to GetEvents()
      */
-    virtual bool GetEvents(std::vector<ADDON::PeripheralEvent>& events);
+    virtual bool GetEvents(std::vector<kodi::addon::PeripheralEvent>& events);
 
     /*!
      * Send an event to a joystick
      */
-    virtual bool SendEvent(const ADDON::PeripheralEvent& event);
+    virtual bool SendEvent(const kodi::addon::PeripheralEvent& event);
 
     /*!
      * Process events sent to the joystick
@@ -112,9 +112,9 @@ namespace JOYSTICK
     void SetAxisValue(unsigned int axisIndex, long value, long maxAxisAmount);
 
   private:
-    void GetButtonEvents(std::vector<ADDON::PeripheralEvent>& events);
-    void GetHatEvents(std::vector<ADDON::PeripheralEvent>& events);
-    void GetAxisEvents(std::vector<ADDON::PeripheralEvent>& events);
+    void GetButtonEvents(std::vector<kodi::addon::PeripheralEvent>& events);
+    void GetHatEvents(std::vector<kodi::addon::PeripheralEvent>& events);
+    void GetAxisEvents(std::vector<kodi::addon::PeripheralEvent>& events);
 
     void UpdateTimers(void);
 

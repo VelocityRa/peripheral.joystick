@@ -24,18 +24,13 @@
 
 using namespace JOYSTICK;
 
-ADDON::CHelper_libXBMC_addon* CDirectoryUtils::m_frontend = NULL;
-
-bool CDirectoryUtils::Initialize(ADDON::CHelper_libXBMC_addon* frontend)
+bool CDirectoryUtils::Initialize()
 {
-  m_frontend = frontend;
-
   return true;
 }
 
 void CDirectoryUtils::Deinitialize(void)
 {
-  m_frontend = NULL;
 }
 
 // --- Directory operations ---------------------------------------------------------
@@ -70,7 +65,7 @@ bool CDirectoryUtils::Remove(const std::string& path)
   return false;
 }
 
-bool CDirectoryUtils::GetDirectory(const std::string& path, const std::string& mask, std::vector<ADDON::CVFSDirEntry>& items)
+bool CDirectoryUtils::GetDirectory(const std::string& path, const std::string& mask, std::vector<kodi::vfs::CDirEntry>& items)
 {
   // Create directory utils
   DirectoryUtilsPtr dirUtils = CreateDirectoryUtils(path);
@@ -82,10 +77,5 @@ bool CDirectoryUtils::GetDirectory(const std::string& path, const std::string& m
 
 DirectoryUtilsPtr CDirectoryUtils::CreateDirectoryUtils(const std::string& url)
 {
-  DirectoryUtilsPtr dirUtils;
-
-  if (m_frontend)
-    dirUtils = DirectoryUtilsPtr(new CVFSDirectoryUtils(m_frontend));
-
-  return dirUtils;
+  return DirectoryUtilsPtr(new CVFSDirectoryUtils());
 }

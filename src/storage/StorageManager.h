@@ -23,17 +23,18 @@
 #include "buttonmapper/ButtonMapTypes.h"
 #include "buttonmapper/JoystickFamily.h"
 
-#include <kodi/peripheral/Peripheral.h>
-
 #include <memory>
 #include <string>
 
+class CPeripheralJoystick;
 struct AddonProps_Peripheral;
 
-namespace ADDON
+namespace kodi
 {
-  class CHelper_libKODI_peripheral;
+namespace addon
+{
   class Joystick;
+}
 }
 
 namespace JOYSTICK
@@ -60,8 +61,7 @@ namespace JOYSTICK
      *
      * \return true if the storage manager has been initialized and can be safely used
      */
-    bool Initialize(ADDON::CHelper_libKODI_peripheral* peripheralLib,
-                    const AddonProps_Peripheral& props);
+    bool Initialize(CPeripheralJoystick* peripheralLib);
 
     /*!
      * \brief Deinitialize storage manager
@@ -75,7 +75,7 @@ namespace JOYSTICK
      * \param controller_id The controller profile being requested, e.g. game.controller.default
      * \param features      The array of features and their driver primitives
      */
-    void GetFeatures(const ADDON::Joystick& joystick,
+    void GetFeatures(const kodi::addon::Joystick& joystick,
                      const std::string& strDeviceId,
                      FeatureVector& features);
 
@@ -88,7 +88,7 @@ namespace JOYSTICK
      *
      * \return true if features were mapped in a storage backend
      */
-    bool MapFeatures(const ADDON::Joystick& joystick,
+    bool MapFeatures(const kodi::addon::Joystick& joystick,
                      const std::string& strDeviceId,
                      const FeatureVector& features);
 
@@ -100,7 +100,7 @@ namespace JOYSTICK
      *
      * \return true if results were loaded from a storage backend
      */
-    void GetIgnoredPrimitives(const ADDON::Joystick& joystick, PrimitiveVector& primitives);
+    void GetIgnoredPrimitives(const kodi::addon::Joystick& joystick, PrimitiveVector& primitives);
 
     /*!
      * \brief Update the list of ignored driver primitives
@@ -110,7 +110,7 @@ namespace JOYSTICK
      *
      * \return true if driver primitives were set in a storage backend
      */
-    bool SetIgnoredPrimitives(const ADDON::Joystick& joystick, const PrimitiveVector& primitives);
+    bool SetIgnoredPrimitives(const kodi::addon::Joystick& joystick, const PrimitiveVector& primitives);
 
     /*!
      * \brief Save the button map for the specified device
@@ -119,7 +119,7 @@ namespace JOYSTICK
      *
      * \return true if the underlying storage was modified, false otherwise
      */
-    bool SaveButtonMap(const ADDON::Joystick& joystick);
+    bool SaveButtonMap(const kodi::addon::Joystick& joystick);
 
     /*!
      * \brief Revert the button map to the last time it was loaded or committed to disk
@@ -129,7 +129,7 @@ namespace JOYSTICK
      *
      * \return true if the underlying storage was modified, false otherwise
      */
-    bool RevertButtonMap(const ADDON::Joystick& joystick);
+    bool RevertButtonMap(const kodi::addon::Joystick& joystick);
 
     /*!
      * \brief Reset the button map for the specified device and controller profile
@@ -139,7 +139,7 @@ namespace JOYSTICK
      *
      * \return true if the underlying storage was modified, false otherwise
      */
-    bool ResetButtonMap(const ADDON::Joystick& joystick, const std::string& strControllerId);
+    bool ResetButtonMap(const kodi::addon::Joystick& joystick, const std::string& strControllerId);
 
     /*!
      * \brief Notify the frontend that button maps have changed
@@ -150,7 +150,7 @@ namespace JOYSTICK
     void RefreshButtonMaps(const std::string& strDeviceName = "");
 
   private:
-    ADDON::CHelper_libKODI_peripheral* m_peripheralLib;
+    CPeripheralJoystick* m_peripheralLib;
 
     DatabaseVector                 m_databases;
     std::unique_ptr<CButtonMapper> m_buttonMapper;

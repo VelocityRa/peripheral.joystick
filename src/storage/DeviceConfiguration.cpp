@@ -104,7 +104,7 @@ PrimitiveVector CDeviceConfiguration::GetIgnoredPrimitives() const
   for (const auto& buttonConfig : m_buttons)
   {
     if (buttonConfig.second.bIgnore)
-      primitives.emplace_back(ADDON::DriverPrimitive::CreateButton(buttonConfig.first));
+      primitives.emplace_back(kodi::addon::DriverPrimitive::CreateButton(buttonConfig.first));
   }
 
   return primitives;

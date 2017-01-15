@@ -22,23 +22,15 @@
 
 #include "ILog.h"
 
-namespace ADDON
-{
-  class CHelper_libXBMC_addon;
-}
-
 namespace JOYSTICK
 {
   class CLogAddon : public ILog
   {
   public:
-    CLogAddon(ADDON::CHelper_libXBMC_addon* frontend);
+    CLogAddon();
     virtual ~CLogAddon(void) { }
 
     virtual void Log(SYS_LOG_LEVEL level, const char* logline) override;
     virtual SYS_LOG_TYPE Type(void) const override { return SYS_LOG_TYPE_ADDON; }
-
-  private:
-    ADDON::CHelper_libXBMC_addon* m_frontend;
   };
 }

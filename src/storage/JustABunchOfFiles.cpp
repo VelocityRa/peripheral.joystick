@@ -184,7 +184,7 @@ CJustABunchOfFiles::~CJustABunchOfFiles(void)
   m_directoryCache.Deinitialize();
 }
 
-const ButtonMap& CJustABunchOfFiles::GetButtonMap(const ADDON::Joystick& driverInfo)
+const ButtonMap& CJustABunchOfFiles::GetButtonMap(const kodi::addon::Joystick& driverInfo)
 {
   static ButtonMap empty;
 
@@ -201,7 +201,7 @@ const ButtonMap& CJustABunchOfFiles::GetButtonMap(const ADDON::Joystick& driverI
   return empty;
 }
 
-bool CJustABunchOfFiles::MapFeatures(const ADDON::Joystick& driverInfo,
+bool CJustABunchOfFiles::MapFeatures(const kodi::addon::Joystick& driverInfo,
                                      const std::string& controllerId,
                                      const FeatureVector& features)
 {
@@ -220,7 +220,7 @@ bool CJustABunchOfFiles::MapFeatures(const ADDON::Joystick& driverInfo,
   return false;
 }
 
-bool CJustABunchOfFiles::GetIgnoredPrimitives(const ADDON::Joystick& driverInfo, PrimitiveVector& primitives)
+bool CJustABunchOfFiles::GetIgnoredPrimitives(const kodi::addon::Joystick& driverInfo, PrimitiveVector& primitives)
 {
   CLockObject lock(m_mutex);
 
@@ -230,7 +230,7 @@ bool CJustABunchOfFiles::GetIgnoredPrimitives(const ADDON::Joystick& driverInfo,
   return m_resources.GetIgnoredPrimitives(driverInfo, primitives);
 }
 
-bool CJustABunchOfFiles::SetIgnoredPrimitives(const ADDON::Joystick& driverInfo, const PrimitiveVector& primitives)
+bool CJustABunchOfFiles::SetIgnoredPrimitives(const kodi::addon::Joystick& driverInfo, const PrimitiveVector& primitives)
 {
   if (!m_bReadWrite)
     return false;
@@ -243,7 +243,7 @@ bool CJustABunchOfFiles::SetIgnoredPrimitives(const ADDON::Joystick& driverInfo,
   return true;
 }
 
-bool CJustABunchOfFiles::SaveButtonMap(const ADDON::Joystick& driverInfo)
+bool CJustABunchOfFiles::SaveButtonMap(const kodi::addon::Joystick& driverInfo)
 {
   if (!m_bReadWrite)
     return false;
@@ -260,7 +260,7 @@ bool CJustABunchOfFiles::SaveButtonMap(const ADDON::Joystick& driverInfo)
   return false;
 }
 
-bool CJustABunchOfFiles::RevertButtonMap(const ADDON::Joystick& driverInfo)
+bool CJustABunchOfFiles::RevertButtonMap(const kodi::addon::Joystick& driverInfo)
 {
   if (!m_bReadWrite)
     return false;
@@ -274,7 +274,7 @@ bool CJustABunchOfFiles::RevertButtonMap(const ADDON::Joystick& driverInfo)
   return true;
 }
 
-bool CJustABunchOfFiles::ResetButtonMap(const ADDON::Joystick& driverInfo, const std::string& controllerId)
+bool CJustABunchOfFiles::ResetButtonMap(const kodi::addon::Joystick& driverInfo, const std::string& controllerId)
 {
   if (!m_bReadWrite)
     return false;
@@ -294,16 +294,16 @@ bool CJustABunchOfFiles::ResetButtonMap(const ADDON::Joystick& driverInfo, const
 void CJustABunchOfFiles::IndexDirectory(const std::string& path, unsigned int folderDepth)
 {
   // Enumerate the directory
-  std::vector<ADDON::CVFSDirEntry> items;
+  std::vector<kodi::vfs::CDirEntry> items;
   if (!m_directoryCache.GetDirectory(path, items))
     CDirectoryUtils::GetDirectory(path, m_strExtension + "|", items);
 
   // Recurse into subdirectories
   if (folderDepth > 0)
   {
-    for (std::vector<ADDON::CVFSDirEntry>::const_iterator it = items.begin(); it != items.end(); ++it)
+    for (std::vector<kodi::vfs::CDirEntry>::const_iterator it = items.begin(); it != items.end(); ++it)
     {
-      const ADDON::CVFSDirEntry& item = *it;
+      const kodi::vfs::CDirEntry& item = *it;
       if (item.IsFolder())
       {
         IndexDirectory(item.Path(), folderDepth - 1);
@@ -313,7 +313,7 @@ void CJustABunchOfFiles::IndexDirectory(const std::string& path, unsigned int fo
 
   // Erase all folders and resources with different extensions
   items.erase(std::remove_if(items.begin(), items.end(),
-    [this](const ADDON::CVFSDirEntry& item)
+    [this](const kodi::vfs::CDirEntry& item)
     {
       return !item.IsFolder() && !StringUtils::EndsWith(item.Path(), this->m_strExtension);
     }), items.end());
@@ -321,7 +321,7 @@ void CJustABunchOfFiles::IndexDirectory(const std::string& path, unsigned int fo
   m_directoryCache.UpdateDirectory(path, items);
 }
 
-void CJustABunchOfFiles::OnAdd(const ADDON::CVFSDirEntry& item)
+void CJustABunchOfFiles::OnAdd(const kodi::vfs::CDirEntry& item)
 {
   if (!item.IsFolder())
   {
@@ -341,12 +341,12 @@ void CJustABunchOfFiles::OnAdd(const ADDON::CVFSDirEntry& item)
   }
 }
 
-void CJustABunchOfFiles::OnRemove(const ADDON::CVFSDirEntry& item)
+void CJustABunchOfFiles::OnRemove(const kodi::vfs::CDirEntry& item)
 {
   m_resources.RemoveResource(item.Path());
 }
 
-bool CJustABunchOfFiles::GetResourcePath(const ADDON::Joystick& deviceInfo, std::string& resourcePath) const
+bool CJustABunchOfFiles::GetResourcePath(const kodi::addon::Joystick& deviceInfo, std::string& resourcePath) const
 {
   // Calculate folder path
   std::string strFolder = m_strResourcePath + "/" + deviceInfo.Provider();

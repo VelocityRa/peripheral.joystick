@@ -24,37 +24,37 @@
 
 using namespace JOYSTICK;
 
-const ButtonMap& CDatabaseJoystickAPI::GetButtonMap(const ADDON::Joystick& driverInfo)
+const ButtonMap& CDatabaseJoystickAPI::GetButtonMap(const kodi::addon::Joystick& driverInfo)
 {
   return CJoystickManager::Get().GetButtonMap(driverInfo.Provider());
 }
 
-bool CDatabaseJoystickAPI::MapFeatures(const ADDON::Joystick& driverInfo, const std::string& controllerId, const FeatureVector& features)
+bool CDatabaseJoystickAPI::MapFeatures(const kodi::addon::Joystick& driverInfo, const std::string& controllerId, const FeatureVector& features)
 {
   return false;
 }
 
-bool CDatabaseJoystickAPI::GetIgnoredPrimitives(const ADDON::Joystick& joystick, PrimitiveVector& primitives)
+bool CDatabaseJoystickAPI::GetIgnoredPrimitives(const kodi::addon::Joystick& joystick, PrimitiveVector& primitives)
 {
   return false;
 }
 
-bool CDatabaseJoystickAPI::SetIgnoredPrimitives(const ADDON::Joystick& joystick, const PrimitiveVector& primitives)
+bool CDatabaseJoystickAPI::SetIgnoredPrimitives(const kodi::addon::Joystick& joystick, const PrimitiveVector& primitives)
 {
   return false;
 }
 
-bool CDatabaseJoystickAPI::SaveButtonMap(const ADDON::Joystick& driverInfo)
+bool CDatabaseJoystickAPI::SaveButtonMap(const kodi::addon::Joystick& driverInfo)
 {
   return false;
 }
 
-bool CDatabaseJoystickAPI::RevertButtonMap(const ADDON::Joystick& driverInfo)
+bool CDatabaseJoystickAPI::RevertButtonMap(const kodi::addon::Joystick& driverInfo)
 {
   return false;
 }
 
-bool CDatabaseJoystickAPI::ResetButtonMap(const ADDON::Joystick& driverInfo, const std::string& controllerId)
+bool CDatabaseJoystickAPI::ResetButtonMap(const kodi::addon::Joystick& driverInfo, const std::string& controllerId)
 {
   return false;
 }
