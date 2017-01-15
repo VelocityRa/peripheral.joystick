@@ -28,7 +28,7 @@
 #include <memory>
 #include <string>
 
-struct PERIPHERAL_PROPERTIES;
+struct AddonProps_Peripheral;
 
 namespace ADDON
 {
@@ -61,7 +61,7 @@ namespace JOYSTICK
      * \return true if the storage manager has been initialized and can be safely used
      */
     bool Initialize(ADDON::CHelper_libKODI_peripheral* peripheralLib,
-                    const PERIPHERAL_PROPERTIES& props);
+                    const AddonProps_Peripheral& props);
 
     /*!
      * \brief Deinitialize storage manager

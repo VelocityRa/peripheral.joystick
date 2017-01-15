@@ -58,7 +58,7 @@ CStorageManager& CStorageManager::Get(void)
 }
 
 bool CStorageManager::Initialize(ADDON::CHelper_libKODI_peripheral* peripheralLib,
-                                 const PERIPHERAL_PROPERTIES& props)
+                                 const AddonProps_Peripheral& props)
 {
   std::string strUserPath = props.user_path ? props.user_path : "";
   std::string strAddonPath = props.addon_path ? props.addon_path : "";
