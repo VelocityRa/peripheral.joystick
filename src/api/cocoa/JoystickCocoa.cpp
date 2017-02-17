@@ -143,7 +143,7 @@ void CJoystickCocoa::Deinitialize(void)
   m_bInitialized = false;
 }
 
-bool CJoystickCocoa::GetEvents(std::vector<kodi::kodi::addon::PeripheralEvent>& events)
+bool CJoystickCocoa::GetEvents(std::vector<kodi::addon::PeripheralEvent>& events)
 {
   CLockObject lock(m_mutex);
   return CJoystick::GetEvents(events);
