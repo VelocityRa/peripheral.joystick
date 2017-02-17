@@ -67,40 +67,75 @@ bool CJoystickXInput::Equals(const CJoystick* rhs) const
 
 void CJoystickXInput::PowerOff()
 {
-  CXInputDLL::Get().PowerOff(m_controllerID);
+  if (CXInputDLL::Get().Version() == "1.3")
+    CXInputDLL::Get().PowerOff(m_controllerID);
 }
 
 bool CJoystickXInput::ScanEvents(void)
 {
-  XINPUT_STATE_EX controllerState;
+  if (CXInputDLL::Get().Version() == "1.3")
+  {
+    XINPUT_STATE_EX controllerState;
 
-  if (!CXInputDLL::Get().GetState(m_controllerID, controllerState))
-    return false;
+    if (!CXInputDLL::Get().GetStateWithGuide(m_controllerID, controllerState))
+      return false;
 
-  m_dwPacketNumber = controllerState.dwPacketNumber;
+    m_dwPacketNumber = controllerState.dwPacketNumber;
 
-  SetButtonValue(0,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_A)              ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
-  SetButtonValue(1,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_B)              ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
-  SetButtonValue(2,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_X)              ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
-  SetButtonValue(3,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_Y)              ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
-  SetButtonValue(4,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER)  ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
-  SetButtonValue(5,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
-  SetButtonValue(6,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_BACK)           ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
-  SetButtonValue(7,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_START)          ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
-  SetButtonValue(8,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_THUMB)     ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
-  SetButtonValue(9,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_THUMB)    ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
-  SetButtonValue(10, (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP)        ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
-  SetButtonValue(11, (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT)     ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
-  SetButtonValue(12, (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN)      ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
-  SetButtonValue(13, (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT)      ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
-  SetButtonValue(14, (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_GUIDE)          ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(0,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_A)              ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(1,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_B)              ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(2,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_X)              ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(3,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_Y)              ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(4,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER)  ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(5,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(6,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_BACK)           ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(7,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_START)          ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(8,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_THUMB)     ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(9,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_THUMB)    ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(10, (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP)        ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(11, (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT)     ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(12, (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN)      ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(13, (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT)      ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(14, (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_GUIDE)          ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
 
-  SetAxisValue(0, (long)controllerState.Gamepad.sThumbLX, MAX_AXIS);
-  SetAxisValue(1, (long)controllerState.Gamepad.sThumbLY, MAX_AXIS);
-  SetAxisValue(2, (long)controllerState.Gamepad.sThumbRX, MAX_AXIS);
-  SetAxisValue(3, (long)controllerState.Gamepad.sThumbRY, MAX_AXIS);
-  SetAxisValue(4, (long)controllerState.Gamepad.bLeftTrigger, MAX_TRIGGER);
-  SetAxisValue(5, (long)controllerState.Gamepad.bRightTrigger, MAX_TRIGGER);
+    SetAxisValue(0, (long)controllerState.Gamepad.sThumbLX, MAX_AXIS);
+    SetAxisValue(1, (long)controllerState.Gamepad.sThumbLY, MAX_AXIS);
+    SetAxisValue(2, (long)controllerState.Gamepad.sThumbRX, MAX_AXIS);
+    SetAxisValue(3, (long)controllerState.Gamepad.sThumbRY, MAX_AXIS);
+    SetAxisValue(4, (long)controllerState.Gamepad.bLeftTrigger, MAX_TRIGGER);
+    SetAxisValue(5, (long)controllerState.Gamepad.bRightTrigger, MAX_TRIGGER);
+  }
+  else
+  {
+    XINPUT_STATE controllerState;
+
+    if (!CXInputDLL::Get().GetState(m_controllerID, controllerState))
+      return false;
+
+    m_dwPacketNumber = controllerState.dwPacketNumber;
+
+    SetButtonValue(0,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_A)              ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(1,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_B)              ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(2,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_X)              ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(3,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_Y)              ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(4,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER)  ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(5,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(6,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_BACK)           ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(7,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_START)          ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(8,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_THUMB)     ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(9,  (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_THUMB)    ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(10, (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP)        ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(11, (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT)     ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(12, (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN)      ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+    SetButtonValue(13, (controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT)      ? JOYSTICK_STATE_BUTTON_PRESSED : JOYSTICK_STATE_BUTTON_UNPRESSED);
+
+    SetAxisValue(0, (long)controllerState.Gamepad.sThumbLX, MAX_AXIS);
+    SetAxisValue(1, (long)controllerState.Gamepad.sThumbLY, MAX_AXIS);
+    SetAxisValue(2, (long)controllerState.Gamepad.sThumbRX, MAX_AXIS);
+    SetAxisValue(3, (long)controllerState.Gamepad.sThumbRY, MAX_AXIS);
+    SetAxisValue(4, (long)controllerState.Gamepad.bLeftTrigger, MAX_TRIGGER);
+    SetAxisValue(5, (long)controllerState.Gamepad.bRightTrigger, MAX_TRIGGER);
+  }
 
   return true;
 }

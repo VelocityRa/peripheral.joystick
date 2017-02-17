@@ -42,6 +42,16 @@ namespace JOYSTICK
     static std::string MakeSafeUrl(const std::string& str);
 
     /*!
+     * \brief Transform characters to create a safe, printable string
+     * \param str The string to transform
+     * \return The transformed string, with unsafe characters replaced by " "
+     *
+     * Unsafe characters are defined as the non-printable ASCII characters
+     * (character code 0-31).
+     */
+    static std::string MakeSafeString(std::string str);
+
+    /*!
      * \brief Removes a MAC address from a given string
      * \param str The string containing a MAC address
      * \return The string without the MAC address (for chaining)

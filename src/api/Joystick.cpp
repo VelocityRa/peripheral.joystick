@@ -18,7 +18,6 @@
  */
 
 #include "Joystick.h"
-#include "AnomalousTrigger.h"
 #include "log/Log.h"
 #include "settings/Settings.h"
 #include "utils/CommonMacros.h"
@@ -55,12 +54,10 @@ bool CJoystick::Equals(const CJoystick* rhs) const
 
 void CJoystick::SetName(const std::string& strName)
 {
-  std::string strSanitizedFilename(strName);
+  std::string strSanitizedFilename = StringUtils::MakeSafeString(strName);
 
   // Remove Bluetooth MAC address as seen in Sony Playstation controllers
   StringUtils::RemoveMACAddress(strSanitizedFilename);
-
-  StringUtils::Trim(strSanitizedFilename);
 
   kodi::addon::Joystick::SetName(strSanitizedFilename);
 }
@@ -75,16 +72,11 @@ bool CJoystick::Initialize(void)
 
   m_state.buttons.assign(ButtonCount(), JOYSTICK_STATE_BUTTON_UNPRESSED);
   m_state.hats.assign(HatCount(), JOYSTICK_STATE_HAT_UNPRESSED);
-  m_state.axes.assign(AxisCount(), 0.0f);
+  m_state.axes.resize(AxisCount());
 
   m_stateBuffer.buttons.assign(ButtonCount(), JOYSTICK_STATE_BUTTON_UNPRESSED);
   m_stateBuffer.hats.assign(HatCount(), JOYSTICK_STATE_HAT_UNPRESSED);
-  m_stateBuffer.axes.assign(AxisCount(), 0.0f);
-
-  // Filter for anomalous triggers
-  m_axisFilters.reserve(AxisCount());
-  for (unsigned int i = 0; i < AxisCount(); i++)
-    m_axisFilters.push_back(new CAnomalousTrigger(i, this));
+  m_stateBuffer.axes.resize(AxisCount());
 
   return true;
 }
@@ -98,10 +90,6 @@ void CJoystick::Deinitialize(void)
   m_stateBuffer.buttons.clear();
   m_stateBuffer.hats.clear();
   m_stateBuffer.axes.clear();
-
-  for (std::vector<IJoystickAxisFilter*>::iterator it = m_axisFilters.begin(); it != m_axisFilters.end(); ++it)
-    delete *it;
-  m_axisFilters.clear();
 }
 
 bool CJoystick::GetEvents(std::vector<kodi::addon::PeripheralEvent>& events)
@@ -138,23 +126,6 @@ bool CJoystick::SendEvent(const kodi::addon::PeripheralEvent& event)
   return bHandled;
 }
 
-std::vector<CAnomalousTrigger*> CJoystick::GetAnomalousTriggers()
-{
-  std::vector<CAnomalousTrigger*> result;
-
-  for (IJoystickAxisFilter* filter : m_axisFilters)
-  {
-    CAnomalousTrigger* trigger = dynamic_cast<CAnomalousTrigger*>(filter);
-    if (!trigger)
-      continue;
-
-    if (trigger->IsAnomalousTriggerDetected())
-      result.push_back(trigger);
-  }
-
-  return result;
-}
-
 void CJoystick::GetButtonEvents(std::vector<kodi::addon::PeripheralEvent>& events)
 {
   const std::vector<JOYSTICK_STATE_BUTTON>& buttons = m_stateBuffer.buttons;
@@ -183,12 +154,12 @@ void CJoystick::GetHatEvents(std::vector<kodi::addon::PeripheralEvent>& events)
 
 void CJoystick::GetAxisEvents(std::vector<kodi::addon::PeripheralEvent>& events)
 {
-  const std::vector<JOYSTICK_STATE_AXIS>& axes = m_stateBuffer.axes;
+  const std::vector<JoystickAxis>& axes = m_stateBuffer.axes;
 
   for (unsigned int i = 0; i < axes.size(); i++)
   {
-    if (axes[i] != 0.0f || m_state.axes[i] != 0.0f)
-      events.push_back(kodi::addon::PeripheralEvent(Index(), i, axes[i]));
+    if (axes[i].bSeen)
+      events.push_back(kodi::addon::PeripheralEvent(Index(), i, axes[i].state));
   }
 
   m_state.axes.assign(axes.begin(), axes.end());
@@ -220,7 +191,10 @@ void CJoystick::SetAxisValue(unsigned int axisIndex, JOYSTICK_STATE_AXIS axisVal
   axisValue = CONSTRAIN(-1.0f, axisValue, 1.0f);
 
   if (axisIndex < m_stateBuffer.axes.size())
-    m_stateBuffer.axes[axisIndex] = m_axisFilters[axisIndex]->Filter(axisValue);
+  {
+    m_stateBuffer.axes[axisIndex].state = axisValue;
+    m_stateBuffer.axes[axisIndex].bSeen = true;
+  }
 }
 
 void CJoystick::SetAxisValue(unsigned int axisIndex, long value, long maxAxisAmount)

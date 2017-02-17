@@ -1,6 +1,10 @@
 <?xml version="1.0" ?>
 <buttonmap>
     <device name="Gamepad F310" provider="cocoa" vid="046D" pid="C21D" buttoncount="15" axiscount="6">
+        <configuration>
+            <axis index="4" center="-1" range="2" />
+            <axis index="5" center="-1" range="2" />
+        </configuration>
         <controller id="game.controller.default">
             <feature name="a" button="0" />
             <feature name="b" button="1" />

@@ -20,7 +20,6 @@ include_directories(${INCLUDES}
                     ${PCRE_INCLUDE_DIRS})
 
 set(JOYSTICK_SOURCES src/addon.cpp
-                     src/api/AnomalousTrigger.cpp
                      src/api/Joystick.cpp
                      src/api/JoystickInterfaceCallback.cpp
                      src/api/JoystickManager.cpp
@@ -67,6 +66,24 @@ list(APPEND DEPLIBS ${kodiplatform_LIBRARIES}
                     ${p8-platform_LIBRARIES}
                     ${PCRE_LIBRARIES})
 add_definitions(${PCRE_DEFINITIONS})
+
+# --- SDL2 ---------------------------------------------------------------------
+
+# SDL game controller support only used by Steam Link
+if(STEAMLINK)
+  find_package(SDL2)
+
+  if(SDL2_FOUND)
+    include_directories(${SDL2_INCLUDE_DIR})
+
+    add_definitions(-DHAVE_SDL)
+
+    list(APPEND JOYSTICK_SOURCES src/api/sdl/JoystickInterfaceSDL.cpp
+                                 src/api/sdl/JoystickSDL.cpp)
+
+    list(APPEND DEPLIBS ${SDL2_LIBRARY})
+  endif()
+endif() # STEAMLINK
 
 # --- Cocoa --------------------------------------------------------------------
 

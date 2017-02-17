@@ -97,7 +97,7 @@ kodi::addon::DriverPrimitive ButtonMapTranslator::ToDriverPrimitive(const std::s
     {
       JOYSTICK_DRIVER_SEMIAXIS_DIRECTION dir = JoystickTranslator::TranslateSemiAxisDir(strPrimitive[0]);
       if (dir != JOYSTICK_DRIVER_SEMIAXIS_UNKNOWN)
-        primitive = kodi::addon::DriverPrimitive(std::atoi(strPrimitive.substr(1).c_str()), dir);
+        primitive = kodi::addon::DriverPrimitive(std::atoi(strPrimitive.substr(1).c_str()), 0, dir, 1);
       break;
     }
     case JOYSTICK_DRIVER_PRIMITIVE_TYPE_MOTOR:

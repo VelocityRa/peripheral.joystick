@@ -25,6 +25,17 @@
 
 using namespace JOYSTICK;
 
+#if defined(TARGET_WINDOWS)
+#if defined(CreateDirectory)
+#define _CreateDirectory CreateDirectory
+#undef CreateDirectory
+#endif
+#if defined(RemoveDirectory)
+#define _RemoveDirectory RemoveDirectory
+#undef RemoveDirectory
+#endif
+#endif
+
 bool CVFSDirectoryUtils::Create(const std::string& path)
 {
   return kodi::vfs::CreateDirectory(path.c_str());
@@ -44,3 +55,14 @@ bool CVFSDirectoryUtils::GetDirectory(const std::string& path, const std::string
 {
   return kodi::vfs::GetDirectory(path, mask, items);
 }
+
+#if defined(TARGET_WINDOWS)
+#if defined(_CreateDirectory)
+#define CreateDirectory _CreateDirectory
+#undef _CreateDirectory
+#endif
+#if defined(_RemoveDirectory)
+#define RemoveDirectory _RemoveDirectory
+#undef _RemoveDirectory
+#endif
+#endif

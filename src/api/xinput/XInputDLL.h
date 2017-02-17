@@ -63,7 +63,8 @@ namespace JOYSTICK
     // Available after library is loaded successfully
     const std::string& Version(void) const { return m_strVersion; }
 
-    bool GetState(unsigned int controllerId, XINPUT_STATE_EX& state);
+    bool GetState(unsigned int controllerId, XINPUT_STATE& state);
+    bool GetStateWithGuide(unsigned int controllerId, XINPUT_STATE_EX& state);
     bool SetState(unsigned int controllerId, XINPUT_VIBRATION& vibration);
     bool GetCapabilities(unsigned int controllerId, XINPUT_CAPABILITIES& caps);
 
@@ -80,7 +81,8 @@ namespace JOYSTICK
     // Forward decl's for XInput API's we load dynamically and use if available
     // [in] Index of the gamer associated with the device
     // [out] Receives the current state
-    typedef DWORD (WINAPI* FnXInputGetState)(DWORD dwUserIndex, XINPUT_STATE_EX* pState);
+    typedef DWORD (WINAPI* FnXInputGetState)(DWORD dwUserIndex, XINPUT_STATE* pState);
+    typedef DWORD (WINAPI* FnXInputGetStateEx)(DWORD dwUserIndex, XINPUT_STATE_EX* pState);
 
     // [in] Index of the gamer associated with the device
     // [in, out] The vibration information to send to the controller
@@ -101,6 +103,7 @@ namespace JOYSTICK
     HMODULE m_dll;
     std::string m_strVersion;
     FnXInputGetState m_getState;
+    FnXInputGetStateEx m_getStateEx;
     FnXInputSetState m_setState;
     FnXInputGetCapabilities m_getCaps;
     FnXInputGetBatteryInformation m_getBatteryInfo;

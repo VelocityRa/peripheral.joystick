@@ -47,12 +47,22 @@ void CJoystickInterfaceXInput::Deinitialize(void)
 
 bool CJoystickInterfaceXInput::ScanForJoysticks(JoystickVector& joysticks)
 {
-  XINPUT_STATE_EX controllerState; // No need to memset, only checking for controller existence
+  // No need to memset, only checking for controller existence
+  XINPUT_STATE controllerState;
+  XINPUT_STATE_EX controllerStateWithGuide;
 
   for (unsigned int i = 0; i < MAX_JOYSTICKS; i++)
   {
-    if (!CXInputDLL::Get().GetState(i, controllerState))
-      continue;
+    if (CXInputDLL::Get().Version() == "1.3")
+    {
+      if (!CXInputDLL::Get().GetStateWithGuide(i, controllerStateWithGuide))
+        continue;
+    }
+    else
+    {
+      if (!CXInputDLL::Get().GetState(i, controllerState))
+        continue;
+    }
 
     joysticks.push_back(JoystickPtr(new CJoystickXInput(i)));
   }

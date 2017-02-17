@@ -20,12 +20,8 @@
 
 #include "DeviceConfiguration.h"
 #include "Device.h"
-#include "api/AnomalousTrigger.h"
-#include "api/Joystick.h"
-#include "api/JoystickManager.h"
 
 #include <algorithm>
-#include <assert.h>
 
 using namespace JOYSTICK;
 
@@ -63,31 +59,6 @@ const ButtonConfiguration& CDeviceConfiguration::Button(unsigned int index) cons
   return defaultConfig;
 }
 
-void CDeviceConfiguration::LoadAxisFromAPI(unsigned int axisIndex, const CDevice& joystickInfo)
-{
-  JoystickVector joysticks = CJoystickManager::Get().GetJoysticks(joystickInfo);
-  for (const auto& joystick : joysticks)
-  {
-    std::vector<CAnomalousTrigger*> triggerVec = joystick->GetAnomalousTriggers();
-
-    auto itTrigger = std::find_if(triggerVec.begin(), triggerVec.end(),
-      [axisIndex](const CAnomalousTrigger* trigger)
-      {
-        return trigger->AxisIndex() == axisIndex;
-      });
-
-    if (itTrigger != triggerVec.end())
-    {
-      m_axes[axisIndex].trigger.center = (*itTrigger)->Center();
-      m_axes[axisIndex].trigger.range = (*itTrigger)->Range();
-    }
-    else
-    {
-      m_axes[axisIndex].trigger.Reset();
-    }
-  }
-}
-
 PrimitiveVector CDeviceConfiguration::GetIgnoredPrimitives() const
 {
   PrimitiveVector primitives;
@@ -96,8 +67,8 @@ PrimitiveVector CDeviceConfiguration::GetIgnoredPrimitives() const
   {
     if (axisConfig.second.bIgnore)
     {
-      primitives.emplace_back(axisConfig.first, JOYSTICK_DRIVER_SEMIAXIS_POSITIVE);
-      primitives.emplace_back(axisConfig.first, JOYSTICK_DRIVER_SEMIAXIS_NEGATIVE);
+      primitives.emplace_back(axisConfig.first, 0, JOYSTICK_DRIVER_SEMIAXIS_POSITIVE, 1);
+      primitives.emplace_back(axisConfig.first, 0, JOYSTICK_DRIVER_SEMIAXIS_NEGATIVE, 1);
     }
   }
 
@@ -108,6 +79,50 @@ PrimitiveVector CDeviceConfiguration::GetIgnoredPrimitives() const
   }
 
   return primitives;
+}
+
+void CDeviceConfiguration::GetAxisConfigs(FeatureVector& features) const
+{
+  for (auto& feature : features)
+  {
+    for (auto& primitive : feature.Primitives())
+      GetAxisConfig(primitive);
+  }
+}
+
+void CDeviceConfiguration::GetAxisConfig(kodi::addon::DriverPrimitive& primitive) const
+{
+  if (primitive.Type() == JOYSTICK_DRIVER_PRIMITIVE_TYPE_SEMIAXIS)
+  {
+    auto it = m_axes.find(primitive.DriverIndex());
+    if (it != m_axes.end())
+    {
+      const AxisConfiguration& config = it->second;
+      primitive = kodi::addon::DriverPrimitive(primitive.DriverIndex(),
+                                         config.trigger.center,
+                                         primitive.SemiAxisDirection(),
+                                         config.trigger.range);
+    }
+  }
+}
+
+void CDeviceConfiguration::SetAxisConfigs(const FeatureVector& features)
+{
+  for (const auto& feature : features)
+  {
+    for (const auto& primitive : feature.Primitives())
+      SetAxisConfig(primitive);
+  }
+}
+
+void CDeviceConfiguration::SetAxisConfig(const kodi::addon::DriverPrimitive& primitive)
+{
+  if (primitive.Type() == JOYSTICK_DRIVER_PRIMITIVE_TYPE_SEMIAXIS)
+  {
+    AxisConfiguration& config = m_axes[primitive.DriverIndex()];
+    config.trigger.center = primitive.Center();
+    config.trigger.range = primitive.Range();
+  }
 }
 
 void CDeviceConfiguration::SetIgnoredPrimitives(const PrimitiveVector& primitives)
@@ -128,7 +143,7 @@ void CDeviceConfiguration::SetIgnoredPrimitives(const PrimitiveVector& primitive
       m_buttons[primitive.DriverIndex()].bIgnore = true;
       break;
     case JOYSTICK_DRIVER_PRIMITIVE_TYPE_SEMIAXIS:
-      m_axes[primitive.DriverIndex()].bIgnore = true;;
+      m_axes[primitive.DriverIndex()].bIgnore = true;
       break;
     default:
       break;

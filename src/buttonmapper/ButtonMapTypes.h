@@ -18,6 +18,8 @@
  */
 #pragma once
 
+#include <kodi/peripheral/PeripheralUtils.h>
+
 #include <map>
 #include <memory>
 #include <set>
@@ -60,24 +62,24 @@ namespace JOYSTICK
   /*!
    * \brief Feature translation entry
    */
-  struct FeatureTranslation
+  struct FeaturePrimitive
   {
-    std::string fromFeature;
-    std::string toFeature;
+    kodi::addon::JoystickFeature feature;
+    JOYSTICK_FEATURE_PRIMITIVE primitive;
 
-    bool operator<(const FeatureTranslation& other) const
+    bool operator<(const FeaturePrimitive& other) const
     {
-      if (fromFeature < other.fromFeature) return true;
-      if (fromFeature > other.fromFeature) return false;
+      if (feature.Name() < other.feature.Name()) return true;
+      if (feature.Name() > other.feature.Name()) return false;
 
-      if (toFeature < other.toFeature) return true;
-      if (toFeature > other.toFeature) return false;
+      if (primitive < other.primitive) return true;
+      if (primitive > other.primitive) return false;
 
       return false;
     }
   };
 
-  typedef std::set<FeatureTranslation> FeatureMap;
+  typedef std::map<FeaturePrimitive, FeaturePrimitive> FeatureMap;
 
   typedef std::map<FeatureMap, unsigned int> FeatureMaps; // Feature map -> occurrences
 

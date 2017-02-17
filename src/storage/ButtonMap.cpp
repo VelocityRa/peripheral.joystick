@@ -71,9 +71,7 @@ void CButtonMap::MapFeatures(const std::string& controllerId, const FeatureVecto
     m_originalButtonMap = m_buttonMap;
 
   // Update axis configurations
-  std::set<unsigned int> updatedAxes = GetAxes(features);
-  for (unsigned int axis : updatedAxes)
-    m_device->Configuration().LoadAxisFromAPI(axis, *m_device);
+  m_device->Configuration().SetAxisConfigs(features);
 
   // Merge new features
   FeatureVector& myFeatures = m_buttonMap[controllerId];
@@ -138,7 +136,12 @@ bool CButtonMap::Refresh(void)
       return false;
 
     for (auto it = m_buttonMap.begin(); it != m_buttonMap.end(); ++it)
+    {
+      // Transfer axis configs from device configuration to features' primitives
+      m_device->Configuration().GetAxisConfigs(it->second);
+
       Sanitize(it->second, it->first);
+    }
 
     m_timestamp = now;
     m_originalButtonMap.clear();
@@ -202,10 +205,16 @@ void CButtonMap::Sanitize(FeatureVector& features, const std::string& controller
       for (unsigned int iExistingFeature = 0; iExistingFeature < iFeature; ++iExistingFeature)
       {
         const auto& existingPrimitives = features[iExistingFeature].Primitives();
-        if (std::find(existingPrimitives.begin(), existingPrimitives.end(), primitive) != existingPrimitives.end())
+
+        bFound = std::find_if(existingPrimitives.begin(), existingPrimitives.end(),
+          [&primitive](const kodi::addon::DriverPrimitive& existing)
+          {
+            return ButtonMapUtils::PrimitivesConflict(primitive, existing);
+          }) != existingPrimitives.end();
+
+        if (bFound)
         {
           existingFeature = features[iExistingFeature];
-          bFound = true;
           break;
         }
       }
@@ -215,8 +224,9 @@ void CButtonMap::Sanitize(FeatureVector& features, const std::string& controller
         // Search for primitive in prior primitives
         for (unsigned int iExistingPrimitive = 0; iExistingPrimitive < iPrimitive; ++iExistingPrimitive)
         {
-          if (primitives[iExistingPrimitive] == primitive)
+          if (ButtonMapUtils::PrimitivesConflict(primitives[iExistingPrimitive], primitive))
           {
+            existingFeature = feature;
             bFound = true;
             break;
           }
@@ -229,7 +239,7 @@ void CButtonMap::Sanitize(FeatureVector& features, const std::string& controller
         esyslog("%s: %s (%s) conflicts with %s (%s)",
             controllerId.c_str(),
             CStorageUtils::PrimitiveToString(primitive).c_str(),
-            existingFeature.Type() != JOYSTICK_FEATURE_TYPE_UNKNOWN ? existingFeature.Name().c_str() : feature.Name().c_str(),
+            existingFeature.Name().c_str(),
             CStorageUtils::PrimitiveToString(primitive).c_str(),
             feature.Name().c_str());
 
@@ -261,20 +271,4 @@ void CButtonMap::Sanitize(FeatureVector& features, const std::string& controller
 
       return false;
     }), features.end());
-}
-
-std::set<unsigned int> CButtonMap::GetAxes(const FeatureVector& features)
-{
-  std::set<unsigned int> axes;
-
-  for (auto& feature : features)
-  {
-    for (auto& primitive : feature.Primitives())
-    {
-      if (primitive.Type() == JOYSTICK_DRIVER_PRIMITIVE_TYPE_SEMIAXIS)
-        axes.insert(primitive.DriverIndex());
-    }
-  }
-
-  return axes;
 }

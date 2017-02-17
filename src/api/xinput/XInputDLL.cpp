@@ -27,6 +27,7 @@ using namespace P8PLATFORM;
 CXInputDLL::CXInputDLL(void)
  : m_dll(NULL),
    m_getState(NULL),
+   m_getStateEx(NULL),
    m_setState(NULL),
    m_getCaps(NULL),
    m_getBatteryInfo(NULL),
@@ -69,22 +70,26 @@ bool CXInputDLL::Load(void)
 
     // 100 is the ordinal for _XInputGetStateEx, which returns the same struct as
     // XinputGetState, but with extra data in wButtons for the guide button, we think...
-    m_getState = (FnXInputGetState)GetProcAddress(m_dll, reinterpret_cast<LPCSTR>(100));
+    if (m_strVersion == "1.3")
+      m_getStateEx = (FnXInputGetStateEx)GetProcAddress(m_dll, reinterpret_cast<LPCSTR>(100));
+    else
+      m_getState = (FnXInputGetState)GetProcAddress(m_dll, "XInputGetState");
     m_setState = (FnXInputSetState)GetProcAddress(m_dll, "XInputSetState");
     m_getCaps  = (FnXInputGetCapabilities)GetProcAddress(m_dll, "XInputGetCapabilities");
     m_getBatteryInfo = (FnXInputGetBatteryInformation)GetProcAddress(m_dll, "XInputGetBatteryInformation");
-    m_powerOff = (FnXInputPowerOffController)GetProcAddress(m_dll, reinterpret_cast<LPCSTR>(103));
+    if (m_strVersion == "1.3")
+      m_powerOff = (FnXInputPowerOffController)GetProcAddress(m_dll, reinterpret_cast<LPCSTR>(103));
 
-    if (m_getState && m_setState && m_getCaps && m_getBatteryInfo && m_powerOff)
+    if ((m_getState || m_getStateEx) && m_setState && m_getCaps && m_getBatteryInfo)
     {
-      dsyslog("Loaded XInput symbols (GetState=%p, SetState=%p, GetCaps=%p, GetBatteryInformation=%p, PowerOff=%p)",
-              m_getState, m_setState, m_getCaps, m_getBatteryInfo, m_powerOff);
+      dsyslog("Loaded XInput symbols (GetState=%p, GetStateEx=%p, SetState=%p, GetCaps=%p, GetBatteryInformation=%p, PowerOff=%p)",
+              m_getState, m_getStateEx, m_setState, m_getCaps, m_getBatteryInfo, m_powerOff);
       return true;
     }
     else
     {
-      esyslog("Failed to load one or more symbols (GetState=%p, SetState=%p, GetCaps=%p, GetBatteryInformation=%p, PowerOff=%p)",
-              m_getState, m_setState, m_getCaps, m_getBatteryInfo, m_powerOff);
+      esyslog("Failed to load one or more symbols (GetState=%p, GetStateEx=%p, SetState=%p, GetCaps=%p, GetBatteryInformation=%p, PowerOff=%p)",
+              m_getState, m_getStateEx, m_setState, m_getCaps, m_getBatteryInfo, m_powerOff);
     }
   }
 
@@ -101,6 +106,7 @@ void CXInputDLL::Unload(void)
 
   m_strVersion.clear();
   m_getState = NULL;
+  m_getStateEx = NULL;
   m_setState = NULL;
   m_getCaps  = NULL;
   m_getBatteryInfo  = NULL;
@@ -108,7 +114,7 @@ void CXInputDLL::Unload(void)
   m_dll      = NULL;
 }
 
-bool CXInputDLL::GetState(unsigned int controllerId, XINPUT_STATE_EX& state)
+bool CXInputDLL::GetState(unsigned int controllerId, XINPUT_STATE& state)
 {
   CLockObject lock(m_mutex);
 
@@ -116,6 +122,24 @@ bool CXInputDLL::GetState(unsigned int controllerId, XINPUT_STATE_EX& state)
     return false;
 
   DWORD result = m_getState(controllerId, &state);
+  if (result != ERROR_SUCCESS)
+  {
+    if (result != ERROR_DEVICE_NOT_CONNECTED)
+      esyslog("Failed to get XInput state on port %u (result=%u)", controllerId, result);
+    return false;
+  }
+
+  return true;
+}
+
+bool CXInputDLL::GetStateWithGuide(unsigned int controllerId, XINPUT_STATE_EX& state)
+{
+  CLockObject lock(m_mutex);
+
+  if (!m_getStateEx)
+    return false;
+
+  DWORD result = m_getStateEx(controllerId, &state);
   if (result != ERROR_SUCCESS)
   {
     if (result != ERROR_DEVICE_NOT_CONNECTED)

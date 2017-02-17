@@ -68,6 +68,20 @@ std::string StringUtils::MakeSafeUrl(const std::string& str)
   return safeUrl;
 }
 
+std::string StringUtils::MakeSafeString(std::string str)
+{
+  std::transform(str.begin(), str.end(), str.begin(),
+    [](char c)
+    {
+      if (c < 0x20)
+        return ' ';
+
+      return c;
+    });
+
+  return str;
+}
+
 std::string& StringUtils::RemoveMACAddress(std::string& str)
 {
   pcrecpp::RE re("[\\(\\[]?([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})[\\)\\]]?");

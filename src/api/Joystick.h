@@ -25,9 +25,6 @@
 
 namespace JOYSTICK
 {
-  class CAnomalousTrigger;
-  class IJoystickAxisFilter;
-
   class CJoystick : public kodi::addon::Joystick
   {
   public:
@@ -96,8 +93,6 @@ namespace JOYSTICK
      */
     virtual void PowerOff() { }
 
-    std::vector<CAnomalousTrigger*> GetAnomalousTriggers();
-
   protected:
     /*!
      * Implemented by derived class to scan for events
@@ -124,16 +119,21 @@ namespace JOYSTICK
     static float NormalizeAxis(long value, long maxAxisAmount);
     static float ScaleDeadzone(float value);
 
+    struct JoystickAxis
+    {
+      JOYSTICK_STATE_AXIS state = 0.0f;
+      bool bSeen = false;
+    };
+
     struct JoystickState
     {
       std::vector<JOYSTICK_STATE_BUTTON> buttons;
       std::vector<JOYSTICK_STATE_HAT>    hats;
-      std::vector<JOYSTICK_STATE_AXIS>   axes;
+      std::vector<JoystickAxis>          axes;
     };
 
     JoystickState                     m_state;
     JoystickState                     m_stateBuffer;
-    std::vector<IJoystickAxisFilter*> m_axisFilters;
     int64_t                           m_discoverTimeMs;
     int64_t                           m_activateTimeMs;
     int64_t                           m_firstEventTimeMs;

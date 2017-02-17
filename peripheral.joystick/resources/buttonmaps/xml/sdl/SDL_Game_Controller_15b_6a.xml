@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <buttonmap>
-    <device name="Xbox 360-compatible controller" provider="xinput" buttoncount="15" axiscount="6">
+    <device name="SDL Game Controller" provider="sdl" buttoncount="15" axiscount="6">
         <configuration />
         <controller id="game.controller.default">
             <feature name="a" button="0" />
@@ -10,10 +10,9 @@
             <feature name="guide" button="14" />
             <feature name="left" button="13" />
             <feature name="leftbumper" button="4" />
-            <feature name="leftmotor" motor="0" />
             <feature name="leftstick">
-                <up axis="+1" />
-                <down axis="-1" />
+                <up axis="-1" />
+                <down axis="+1" />
                 <right axis="+0" />
                 <left axis="-0" />
             </feature>
@@ -21,10 +20,9 @@
             <feature name="lefttrigger" axis="+4" />
             <feature name="right" button="11" />
             <feature name="rightbumper" button="5" />
-            <feature name="rightmotor" motor="1" />
             <feature name="rightstick">
-                <up axis="+3" />
-                <down axis="-3" />
+                <up axis="-3" />
+                <down axis="+3" />
                 <right axis="+2" />
                 <left axis="-2" />
             </feature>
@@ -38,8 +36,8 @@
         <controller id="game.controller.dreamcast">
             <feature name="a" button="0" />
             <feature name="analogstick">
-                <up axis="+1" />
-                <down axis="-1" />
+                <up axis="-1" />
+                <down axis="+1" />
                 <right axis="+0" />
                 <left axis="-0" />
             </feature>
@@ -83,8 +81,8 @@
         <controller id="game.controller.n64">
             <feature name="a" button="0" />
             <feature name="analogstick">
-                <up axis="+1" />
-                <down axis="-1" />
+                <up axis="-1" />
+                <down axis="+1" />
                 <right axis="+0" />
                 <left axis="-0" />
             </feature>
@@ -100,7 +98,7 @@
             <feature name="rightbumper" button="5" />
             <feature name="start" button="7" />
             <feature name="up" button="10" />
-            <feature name="z" axis="+4" />
+            <feature name="z" axis="+5" />
         </controller>
         <controller id="game.controller.nes">
             <feature name="a" button="0" />
@@ -120,8 +118,8 @@
             <feature name="left" button="13" />
             <feature name="leftbumper" button="4" />
             <feature name="leftstick">
-                <up axis="+1" />
-                <down axis="-1" />
+                <up axis="-1" />
+                <down axis="+1" />
                 <right axis="+0" />
                 <left axis="-0" />
             </feature>
@@ -130,8 +128,8 @@
             <feature name="right" button="11" />
             <feature name="rightbumper" button="5" />
             <feature name="rightstick">
-                <up axis="+3" />
-                <down axis="-3" />
+                <up axis="-3" />
+                <down axis="+3" />
                 <right axis="+2" />
                 <left axis="-2" />
             </feature>
@@ -139,10 +137,8 @@
             <feature name="select" button="6" />
             <feature name="square" button="2" />
             <feature name="start" button="7" />
-            <feature name="strongmotor" motor="0" />
             <feature name="triangle" button="3" />
             <feature name="up" button="10" />
-            <feature name="weakmotor" motor="1" />
         </controller>
         <controller id="game.controller.snes">
             <feature name="a" button="0" />

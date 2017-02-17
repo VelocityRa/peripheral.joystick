@@ -28,6 +28,9 @@
 #if defined(HAVE_XINPUT)
   #include "xinput/JoystickInterfaceXInput.h"
 #endif
+#if defined(HAVE_SDL)
+  #include "sdl/JoystickInterfaceSDL.h"
+#endif
 #if defined(HAVE_LINUX_JOYSTICK)
   #include "linux/JoystickInterfaceLinux.h"
 #endif
@@ -111,7 +114,9 @@ bool CJoystickManager::Initialize(IScannerCallback* scanner)
 #endif
 
   // Linux
-#if defined(HAVE_LINUX_JOYSTICK)
+#if defined(HAVE_SDL)
+  m_interfaces.push_back(new CJoystickInterfaceSDL);
+#elif defined(HAVE_LINUX_JOYSTICK)
   m_interfaces.push_back(new CJoystickInterfaceLinux);
 #elif defined(HAVE_UDEV)
   m_interfaces.push_back(new CJoystickInterfaceUdev);

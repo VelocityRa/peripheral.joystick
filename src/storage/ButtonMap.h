@@ -62,8 +62,6 @@ namespace JOYSTICK
 
     static void Sanitize(FeatureVector& features, const std::string& controllerId);
 
-    static std::set<unsigned int> GetAxes(const FeatureVector& features);
-
     const std::string m_strResourcePath;
     DevicePtr         m_device;
     DevicePtr         m_originalDevice;
